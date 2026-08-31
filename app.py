@@ -42,7 +42,7 @@ GROUPS: dict[str, list[str]] = {
         "AYNUR GÜLER", "AYŞEN", "BAKLAN", "BAŞDİL", "BAŞÇAVUŞ", "BÜŞRA BOYACI",
         "CEYDA POLAT", "DELİKTAŞ", "DEMİRTAŞ", "DERYAM", "DOKUZKAVAKLAR", "ERMAN",
         "GAMZE", "GENCER", "KAYDIHAN", "KOÇAK", "KUNDAKÇI", "MAVİ", "MİRA", "NEVA",
-        "SEMT", "YENİLMEZ", "ZEYNEP", "ÇALLIOĞLU",
+        "SEMT", "YENİLMEZ", "ZEYNEP", "ÇALLIOĞLU", "DİLEK",
     ],
     "Grup 2": [
         "ANIL", "AYGÖREN", "AYKUT", "BAYRAMYERİ", "BÜYÜK", "DAĞDEVİREN", "DOĞAL", "DUYGU",
@@ -50,7 +50,7 @@ GROUPS: dict[str, list[str]] = {
         "SEÇKİN", "TEMMUZ", "ÖZDERMAN", "İNCEOĞLU", "ŞULE", "ŞİFA",
     ],
     "Grup 3": [
-        "ADALET", "AKDENİZ", "CANDENİZ", "CANSU", "DEMİR", "DİLEK", "EMİR", "FLORYA", "GÜLRİZ",
+        "ADALET", "AKDENİZ", "CANDENİZ", "CANSU", "DEMİR", "EMİR", "FLORYA", "GÜLRİZ",
         "HACETTEPE", "HAZAR", "KAPLAN", "KAYHAN", "KÖKNAR", "NÜKHET", "NİLGÜN", "PAPATYA",
         "SEMİH", "TURAN", "UĞUR", "ÇAKMAK", "ÇİFTÇİ", "ÖZGEN", "ÖZSOY",
     ],
