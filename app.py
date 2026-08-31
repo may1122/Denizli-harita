@@ -534,89 +534,60 @@ def latlon_distance_m(
 # Aynı grubun eczanelerini gereksiz karmaşa oluşturmadan bağlar
 # ============================================================
 
-def local_polygon_edges(
+def minimum_spanning_edges(
     points: list[tuple[float, float]],
-    cluster_size: int = 4,
 ) -> list[tuple[int, int]]:
-    """
-    Noktaları birbirine tamamen bağlamak yerine coğrafi olarak yakın
-    küçük kümelere ayırır. Her 4'lü kümede yalnızca kapalı çevre çizilir:
 
-        A ---- B
-        |      |
-        D ---- C
-
-    Böylece dörtgen/yamuk benzeri yerel şekiller oluşur ve farklı kümeler
-    arasında gereksiz uzun bağlantılar kurulmaz. Kalan 3 nokta üçgen,
-    kalan 2 nokta tek çizgi olarak gösterilir.
-    """
-
-    n = len(points)
-    if n < 2:
+    if len(points) < 2:
         return []
 
-    remaining = set(range(n))
-    clusters: list[list[int]] = []
+    used = {0}
 
-    while remaining:
-        seed = min(remaining)
-        remaining.remove(seed)
-        cluster = [seed]
+    edges: list[
+        tuple[int, int]
+    ] = []
 
-        if remaining:
-            nearest = sorted(
-                remaining,
-                key=lambda j: latlon_distance_m(points[seed], points[j]),
-            )
-            take = nearest[: max(0, cluster_size - 1)]
-            for j in take:
-                remaining.remove(j)
-                cluster.append(j)
+    while len(used) < len(points):
 
-        clusters.append(cluster)
+        best: tuple[
+            float,
+            int,
+            int,
+        ] | None = None
 
-    # Son kümede tek nokta kalırsa onu en yakın önceki kümeye ekle.
-    if len(clusters) >= 2 and len(clusters[-1]) == 1:
-        lone = clusters.pop()[0]
-        best_idx = min(
-            range(len(clusters)),
-            key=lambda ci: min(
-                latlon_distance_m(points[lone], points[j])
-                for j in clusters[ci]
-            ),
-        )
-        clusters[best_idx].append(lone)
+        for i in used:
 
-    edge_set: set[tuple[int, int]] = set()
+            for j in range(len(points)):
 
-    for cluster in clusters:
-        if len(cluster) == 2:
-            a, b = sorted(cluster)
-            edge_set.add((a, b))
-            continue
+                if j in used:
+                    continue
 
-        if len(cluster) < 2:
-            continue
+                distance = latlon_distance_m(
+                    points[i],
+                    points[j],
+                )
 
-        # Küme merkezine göre açı sırasına diz; sadece dış çevreyi bağla.
-        center_lat = sum(points[i][0] for i in cluster) / len(cluster)
-        center_lon = sum(points[i][1] for i in cluster) / len(cluster)
+                if (
+                    best is None
+                    or distance < best[0]
+                ):
+                    best = (
+                        distance,
+                        i,
+                        j,
+                    )
 
-        ordered = sorted(
-            cluster,
-            key=lambda i: math.atan2(
-                points[i][0] - center_lat,
-                points[i][1] - center_lon,
-            ),
+        assert best is not None
+
+        _, i, j = best
+
+        edges.append(
+            (i, j)
         )
 
-        for k in range(len(ordered)):
-            i = ordered[k]
-            j = ordered[(k + 1) % len(ordered)]
-            a, b = sorted((i, j))
-            edge_set.add((a, b))
+        used.add(j)
 
-    return sorted(edge_set)
+    return edges
 
 
 # ============================================================
@@ -630,8 +601,7 @@ def add_group_lines(
 ) -> None:
     """
     Bağlantıları HER HARİTA OLUŞUMUNDA doğrudan güncel GROUPS
-    tanımından yeniden kurar. Çizgiler tek bir ağaç gibi gitmez;
-    yakın komşular arasında küçük ağlar ve kapalı şekiller oluşturur.
+    tanımından yeniden kurar.
 
     Böylece bir eczane bir gruptan başka bir gruba taşındığında:
     - eski grubun çizgi ağı o eczaneyi kesinlikle kullanmaz,
@@ -689,9 +659,8 @@ def add_group_lines(
             for row in subset.itertuples(index=False)
         ]
 
-        # Noktaları 4'lü yerel kümelere ayırıp sadece kümenin çevresini çiziyoruz.
-        # Böylece bütün grup tek bir ağ gibi birbirine bağlanmaz.
-        edges = local_polygon_edges(points, cluster_size=4)
+        # MST her seferinde sadece güncel grup üyeleriyle sıfırdan hesaplanır.
+        edges = minimum_spanning_edges(points)
 
         line_layer = FeatureGroup(
             name=f"{group_name} bağlantıları",
