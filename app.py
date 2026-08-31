@@ -66,7 +66,7 @@ GROUPS: dict[str, list[str]] = {
     ],
     "Grup 6": [
         "ALBAYRAK", "ASLAN", "AYDIN", "AYLİN", "ELİF PAMUKÇU", "ERSAN", "HÜRRİYET", "KINIKLI",
-        "KÖSELER", "MEHMET KAYA", "MERKEZEFENDİ", "MUTLU GÜNLER", "NEFES", "NİSAN", "OKYANUS",
+        "KÖSELER", "MEHMET KAYA", "MERKEZEFENDİ", "MUTLU GÜNLER", "NİSAN", "OKYANUS",
         "SAHRA", "SARAÇOĞLU", "SEDA BAŞDİL", "TURKUAZ", "YEŞİLYURT", "ÇAMLICA", "ÇETİN", "ÖZKAN", "İSTİKLAL",
     ],
     "Grup 7": [
@@ -82,7 +82,7 @@ GROUPS: dict[str, list[str]] = {
     "Grup 9": [
         "ALTINOVA", "BAHAR", "CADDE SAĞLIK", "CANSU ERKİLET", "CANSUYU", "CEYLAN", "ELİF'İN", "EMEK",
         "GÖRKEM", "GÜNEŞ", "IRMAK", "NAZAN", "OZAN", "PARK BOTANİK", "SERVET", "TUGAY", "TÜFEKÇİOĞLU",
-        "YEŞİLYUVA", "ÇAMLIK", "ÖZGÜ", "ÖZGÜN KIYAT", "İZMİRLİ", "ŞİRİN",
+        "YEŞİLYUVA", "ÇAMLIK", "ÖZGÜ", "ÖZGÜN KIYAT", "İZMİRLİ", "ŞİRİN", "NEFES",
     ],
 }
 
