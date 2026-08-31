@@ -249,8 +249,24 @@ def build_map(df: pd.DataFrame, selected_groups: set[str]) -> folium.Map:
     center = [float(df["Latitude"].median()), float(df["Longitude"].median())]
     m = folium.Map(location=center, zoom_start=13, tiles=None, control_scale=True, prefer_canvas=True)
 
-    folium.TileLayer("CartoDB positron", name="Sade harita", control=True, show=True).add_to(m)
-    folium.TileLayer("OpenStreetMap", name="Detaylı harita", control=True, show=False).add_to(m)
+    folium.TileLayer(
+        tiles="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+        attr="&copy; OpenStreetMap contributors &copy; CARTO",
+        name="Sade harita",
+        control=True,
+        show=True,
+        subdomains="abcd",
+        max_zoom=20,
+    ).add_to(m)
+
+    folium.TileLayer(
+        tiles="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        attr="&copy; OpenStreetMap contributors",
+        name="Detaylı harita",
+        control=True,
+        show=False,
+        max_zoom=19,
+    ).add_to(m)
 
     # Çizgiler önce, markerlar sonra: markerlar çizgilerin üstünde kalır.
     add_group_lines(m, df, selected_groups)
