@@ -173,6 +173,7 @@ GROUPS: dict[str, list[str]] = {
         "FATIMA ŞENTÜRK",
         "FATİH",
         "GÜRKAN",
+        "HASİBE KARTOĞLAN",
         "MERKEZ",
         "OCAK",
         "PELİTLİBAĞ",
@@ -188,6 +189,7 @@ GROUPS: dict[str, list[str]] = {
 
     "Grup 6": [
         "ALBAYRAK",
+        "ASLAN",
         "AYDIN",
         "AYLİN",
         "ELİF PAMUKÇU",
@@ -209,14 +211,15 @@ GROUPS: dict[str, list[str]] = {
         "ÇETİN",
         "ÖZKAN",
         "İSTİKLAL",
-        "HASİBE KARTOĞLAN",
     ],
 
     "Grup 7": [
         "29_EKİM",
         "AKTÜRK",
         "ASLI",
+        "BERGAMA",
         "CEMRE",
+        "CEREN FİLİZER",
         "EKİZ",
         "ELVAN",
         "ERTUĞRUL",
@@ -224,6 +227,7 @@ GROUPS: dict[str, list[str]] = {
         "GÖZDE GÜNDÜZ",
         "IŞIMLIK",
         "KABAYUKA",
+        "KEKİK",
         "KİRAZ",
         "PAMUKKALE AKTÜRK",
         "SENA KELLECİ",
@@ -233,23 +237,20 @@ GROUPS: dict[str, list[str]] = {
         "ÖZGÜR",
         "ÜMİT",
         "İLKE",
-        "ALPLER",
-        "FORUM ÇAMLIK",
-        "BİLGE",
-        "EVREN",
     ],
 
     "Grup 8": [
-        "CEREN FİLİZER",
-        "KEKİK",
+        "ALPLER",
         "ALSANCAK",
-        "BERGAMA",
+        "BİLGE",
         "CANDAN",
         "DEMİRCİOĞLU GÜL",
         "DEMİROĞLU",
         "DERMAN",
         "DEVECİ",
+        "EVREN",
         "EZGİ KIRDI",
+        "FORUM ÇAMLIK",
         "GÖKÇE",
         "GÜRSOY",
         "KIZILTAŞ",
@@ -262,20 +263,19 @@ GROUPS: dict[str, list[str]] = {
         "ZEYTİNKÖY SEMA",
         "ÜNİVERSİTE",
         "İNANÖZ",
-        "İZMİRLİ",
-        "CADDE SAĞLIK",
-         "GÜNEŞ",
     ],
 
     "Grup 9": [
         "ALTINOVA",
         "BAHAR",
+        "CADDE SAĞLIK",
         "CANSU ERKİLET",
         "CANSUYU",
         "CEYLAN",
         "ELİF'İN",
         "EMEK",
         "GÖRKEM",
+        "GÜNEŞ",
         "IRMAK",
         "NAZAN",
         "OZAN",
@@ -287,9 +287,9 @@ GROUPS: dict[str, list[str]] = {
         "ÇAMLIK",
         "ÖZGÜ",
         "ÖZGÜN KIYAT",
+        "İZMİRLİ",
         "ŞİRİN",
         "NEFES",
-        "ASLAN",
     ],
 }
 
@@ -534,60 +534,48 @@ def latlon_distance_m(
 # Aynı grubun eczanelerini gereksiz karmaşa oluşturmadan bağlar
 # ============================================================
 
-def minimum_spanning_edges(
+def polygon_mesh_edges(
     points: list[tuple[float, float]],
+    neighbors: int = 2,
 ) -> list[tuple[int, int]]:
+    """
+    Her noktayı yakınındaki birkaç eczaneye bağlayarak tek bir ağaç/hat
+    yerine kapalı şekiller (üçgen, dörtgen, yamuk vb.) oluşturan bir ağ kurar.
+
+    neighbors=2 daha sade ve okunaklı bir ağ üretir.
+    """
 
     if len(points) < 2:
         return []
 
-    used = {0}
+    if len(points) == 2:
+        return [(0, 1)]
 
-    edges: list[
-        tuple[int, int]
-    ] = []
+    k = max(2, min(neighbors, len(points) - 1))
+    edge_set: set[tuple[int, int]] = set()
 
-    while len(used) < len(points):
+    # Her eczaneyi en yakın k komşusuna bağla.
+    # Bu yöntem MST gibi tek bir dal/hat oluşturmak yerine yerel halkalar
+    # ve dörtgen-yamuk benzeri geometriler üretir.
+    for i in range(len(points)):
+        candidates: list[tuple[float, int]] = []
 
-        best: tuple[
-            float,
-            int,
-            int,
-        ] | None = None
+        for j in range(len(points)):
+            if i == j:
+                continue
 
-        for i in used:
+            candidates.append((
+                latlon_distance_m(points[i], points[j]),
+                j,
+            ))
 
-            for j in range(len(points)):
+        candidates.sort(key=lambda item: item[0])
 
-                if j in used:
-                    continue
+        for _, j in candidates[:k]:
+            a, b = sorted((i, j))
+            edge_set.add((a, b))
 
-                distance = latlon_distance_m(
-                    points[i],
-                    points[j],
-                )
-
-                if (
-                    best is None
-                    or distance < best[0]
-                ):
-                    best = (
-                        distance,
-                        i,
-                        j,
-                    )
-
-        assert best is not None
-
-        _, i, j = best
-
-        edges.append(
-            (i, j)
-        )
-
-        used.add(j)
-
-    return edges
+    return sorted(edge_set)
 
 
 # ============================================================
@@ -601,7 +589,8 @@ def add_group_lines(
 ) -> None:
     """
     Bağlantıları HER HARİTA OLUŞUMUNDA doğrudan güncel GROUPS
-    tanımından yeniden kurar.
+    tanımından yeniden kurar. Çizgiler tek bir ağaç gibi gitmez;
+    yakın komşular arasında küçük ağlar ve kapalı şekiller oluşturur.
 
     Böylece bir eczane bir gruptan başka bir gruba taşındığında:
     - eski grubun çizgi ağı o eczaneyi kesinlikle kullanmaz,
@@ -659,8 +648,9 @@ def add_group_lines(
             for row in subset.itertuples(index=False)
         ]
 
-        # MST her seferinde sadece güncel grup üyeleriyle sıfırdan hesaplanır.
-        edges = minimum_spanning_edges(points)
+        # Tek bir MST hattı yerine yakın komşuluk ağı kuruyoruz.
+        # Böylece çizgiler dörtgen, yamuk ve küçük kapalı şekiller oluşturur.
+        edges = polygon_mesh_edges(points, neighbors=2)
 
         line_layer = FeatureGroup(
             name=f"{group_name} bağlantıları",
