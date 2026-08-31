@@ -599,6 +599,23 @@ def add_group_lines(
     df: pd.DataFrame,
     selected_groups: set[str],
 ) -> None:
+    """
+    Bağlantıları HER HARİTA OLUŞUMUNDA doğrudan güncel GROUPS
+    tanımından yeniden kurar.
+
+    Böylece bir eczane bir gruptan başka bir gruba taşındığında:
+    - eski grubun çizgi ağı o eczaneyi kesinlikle kullanmaz,
+    - yeni grubun çizgi ağı eczaneyi dahil ederek baştan hesaplanır.
+
+    df["Grup"] sütununa güvenmek yerine GROUPS içindeki güncel isimleri
+    normalize edip doğrudan eşleştiriyoruz. Bu, eski grup bilgisinin çizgide
+    kalması ihtimalini ortadan kaldırır.
+    """
+
+    # DataFrame'deki her eczanenin güncel anahtarını garanti altına al.
+    work_df = df.copy()
+    if "Anahtar" not in work_df.columns:
+        work_df["Anahtar"] = work_df["Eczane"].map(normalize_name)
 
     for group_name in ALL_GROUPS:
 
@@ -606,30 +623,25 @@ def add_group_lines(
             continue
 
         # ----------------------------------------------------
-        # ÖNEMLİ:
-        # Güncel "Grup" sütunundan yeniden oluşturuyoruz.
-        #
-        # Bir eczane Grup 2'den Grup 5'e geçtiyse,
-        # Grup 2 MST ağı artık onu kullanmaz.
-        # Grup 5 MST ağı ise onu dahil ederek yeniden hesaplanır.
+        # SADECE GÜNCEL GROUPS TANIMI GERÇEK KAYNAK
         # ----------------------------------------------------
+        current_group_keys = {
+            normalize_name(name)
+            for name in GROUPS[group_name]
+        }
 
         subset = (
-            df.loc[
-                df["Grup"].eq(group_name),
+            work_df.loc[
+                work_df["Anahtar"].isin(current_group_keys),
                 [
                     "Eczane",
+                    "Anahtar",
                     "Latitude",
                     "Longitude",
-                    "Grup",
                 ],
             ]
-            .dropna(
-                subset=[
-                    "Latitude",
-                    "Longitude",
-                ]
-            )
+            .dropna(subset=["Latitude", "Longitude"])
+            .drop_duplicates(subset=["Anahtar"], keep="first")
             .copy()
             .reset_index(drop=True)
         )
@@ -644,14 +656,11 @@ def add_group_lines(
                 float(row.Latitude),
                 float(row.Longitude),
             )
-            for row
-            in subset.itertuples(index=False)
+            for row in subset.itertuples(index=False)
         ]
 
-        # Her harita oluşturulduğunda yeniden hesaplanır
-        edges = minimum_spanning_edges(
-            points
-        )
+        # MST her seferinde sadece güncel grup üyeleriyle sıfırdan hesaplanır.
+        edges = minimum_spanning_edges(points)
 
         line_layer = FeatureGroup(
             name=f"{group_name} bağlantıları",
@@ -660,49 +669,44 @@ def add_group_lines(
 
         for i, j in edges:
 
-            pharmacy_1 = (
-                str(
-                    subset.iloc[i]["Eczane"]
-                )
-            )
+            row_i = subset.iloc[i]
+            row_j = subset.iloc[j]
 
-            pharmacy_2 = (
-                str(
-                    subset.iloc[j]["Eczane"]
-                )
-            )
+            key_i = str(row_i["Anahtar"])
+            key_j = str(row_j["Anahtar"])
+
+            # ------------------------------------------------
+            # SON GÜVENLİK KONTROLÜ
+            # Çizginin iki ucu da hâlâ bu grubun güncel üyesi
+            # değilse o çizgiyi ASLA çizme.
+            # ------------------------------------------------
+            if (
+                key_i not in current_group_keys
+                or key_j not in current_group_keys
+            ):
+                continue
+
+            pharmacy_1 = str(row_i["Eczane"])
+            pharmacy_2 = str(row_j["Eczane"])
 
             folium.PolyLine(
                 locations=[
                     points[i],
                     points[j],
                 ],
-
                 color=color,
-
-                # ince ama görünür
                 weight=2.4,
-
                 opacity=0.82,
-
-                # kesikli çizgi
                 dash_array="7 6",
-
                 line_cap="round",
                 line_join="round",
-
                 tooltip=(
                     f"{group_name}: "
-                    f"{pharmacy_1} ↔ "
-                    f"{pharmacy_2}"
+                    f"{pharmacy_1} ↔ {pharmacy_2}"
                 ),
-            ).add_to(
-                line_layer
-            )
+            ).add_to(line_layer)
 
-        line_layer.add_to(
-            map_obj
-        )
+        line_layer.add_to(map_obj)
 
 
 # ============================================================
