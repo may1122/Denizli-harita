@@ -262,12 +262,13 @@ GROUPS: dict[str, list[str]] = {
         "ZEYTİNKÖY SEMA",
         "ÜNİVERSİTE",
         "İNANÖZ",
+        "İZMİRLİ",
+        "CADDE SAĞLIK",
     ],
 
     "Grup 9": [
         "ALTINOVA",
         "BAHAR",
-        "CADDE SAĞLIK",
         "CANSU ERKİLET",
         "CANSUYU",
         "CEYLAN",
@@ -286,7 +287,6 @@ GROUPS: dict[str, list[str]] = {
         "ÇAMLIK",
         "ÖZGÜ",
         "ÖZGÜN KIYAT",
-        "İZMİRLİ",
         "ŞİRİN",
         "NEFES",
         "ASLAN",
