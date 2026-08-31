@@ -534,44 +534,85 @@ def latlon_distance_m(
 # Aynı grubun eczanelerini gereksiz karmaşa oluşturmadan bağlar
 # ============================================================
 
-def polygon_mesh_edges(
+def local_polygon_edges(
     points: list[tuple[float, float]],
-    neighbors: int = 2,
+    cluster_size: int = 4,
 ) -> list[tuple[int, int]]:
     """
-    Her noktayı yakınındaki birkaç eczaneye bağlayarak tek bir ağaç/hat
-    yerine kapalı şekiller (üçgen, dörtgen, yamuk vb.) oluşturan bir ağ kurar.
+    Noktaları birbirine tamamen bağlamak yerine coğrafi olarak yakın
+    küçük kümelere ayırır. Her 4'lü kümede yalnızca kapalı çevre çizilir:
 
-    neighbors=2 daha sade ve okunaklı bir ağ üretir.
+        A ---- B
+        |      |
+        D ---- C
+
+    Böylece dörtgen/yamuk benzeri yerel şekiller oluşur ve farklı kümeler
+    arasında gereksiz uzun bağlantılar kurulmaz. Kalan 3 nokta üçgen,
+    kalan 2 nokta tek çizgi olarak gösterilir.
     """
 
-    if len(points) < 2:
+    n = len(points)
+    if n < 2:
         return []
 
-    if len(points) == 2:
-        return [(0, 1)]
+    remaining = set(range(n))
+    clusters: list[list[int]] = []
 
-    k = max(2, min(neighbors, len(points) - 1))
+    while remaining:
+        seed = min(remaining)
+        remaining.remove(seed)
+        cluster = [seed]
+
+        if remaining:
+            nearest = sorted(
+                remaining,
+                key=lambda j: latlon_distance_m(points[seed], points[j]),
+            )
+            take = nearest[: max(0, cluster_size - 1)]
+            for j in take:
+                remaining.remove(j)
+                cluster.append(j)
+
+        clusters.append(cluster)
+
+    # Son kümede tek nokta kalırsa onu en yakın önceki kümeye ekle.
+    if len(clusters) >= 2 and len(clusters[-1]) == 1:
+        lone = clusters.pop()[0]
+        best_idx = min(
+            range(len(clusters)),
+            key=lambda ci: min(
+                latlon_distance_m(points[lone], points[j])
+                for j in clusters[ci]
+            ),
+        )
+        clusters[best_idx].append(lone)
+
     edge_set: set[tuple[int, int]] = set()
 
-    # Her eczaneyi en yakın k komşusuna bağla.
-    # Bu yöntem MST gibi tek bir dal/hat oluşturmak yerine yerel halkalar
-    # ve dörtgen-yamuk benzeri geometriler üretir.
-    for i in range(len(points)):
-        candidates: list[tuple[float, int]] = []
+    for cluster in clusters:
+        if len(cluster) == 2:
+            a, b = sorted(cluster)
+            edge_set.add((a, b))
+            continue
 
-        for j in range(len(points)):
-            if i == j:
-                continue
+        if len(cluster) < 2:
+            continue
 
-            candidates.append((
-                latlon_distance_m(points[i], points[j]),
-                j,
-            ))
+        # Küme merkezine göre açı sırasına diz; sadece dış çevreyi bağla.
+        center_lat = sum(points[i][0] for i in cluster) / len(cluster)
+        center_lon = sum(points[i][1] for i in cluster) / len(cluster)
 
-        candidates.sort(key=lambda item: item[0])
+        ordered = sorted(
+            cluster,
+            key=lambda i: math.atan2(
+                points[i][0] - center_lat,
+                points[i][1] - center_lon,
+            ),
+        )
 
-        for _, j in candidates[:k]:
+        for k in range(len(ordered)):
+            i = ordered[k]
+            j = ordered[(k + 1) % len(ordered)]
             a, b = sorted((i, j))
             edge_set.add((a, b))
 
@@ -648,9 +689,9 @@ def add_group_lines(
             for row in subset.itertuples(index=False)
         ]
 
-        # Tek bir MST hattı yerine yakın komşuluk ağı kuruyoruz.
-        # Böylece çizgiler dörtgen, yamuk ve küçük kapalı şekiller oluşturur.
-        edges = polygon_mesh_edges(points, neighbors=2)
+        # Noktaları 4'lü yerel kümelere ayırıp sadece kümenin çevresini çiziyoruz.
+        # Böylece bütün grup tek bir ağ gibi birbirine bağlanmaz.
+        edges = local_polygon_edges(points, cluster_size=4)
 
         line_layer = FeatureGroup(
             name=f"{group_name} bağlantıları",
