@@ -338,7 +338,7 @@ GROUPS: dict[str, list[str]] = {
         
     ],
 
-    "K1": [
+    "K3": [
         'GÖRKEM',
         'CADDE SAĞLIK',
         'ÇAMLIK',
@@ -359,7 +359,7 @@ GROUPS: dict[str, list[str]] = {
         'CANSU ERKİLET',
     ],
 
-    "K3": [
+    "K1": [
         'ÖZGÜ',
         'ÖZGÜN KIYAT',
         'ALTINOVA',
