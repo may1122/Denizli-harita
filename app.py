@@ -260,12 +260,12 @@ GROUPS: dict[str, list[str]] = {
         'SARAÇOĞLU',
         'MUTLU GÜNLER',
         'ÇAMLICA',
-        'AYDIN',
+        'HÜRRİYET',
     ],
 
     "F3": [
         'İSTİKLAL',
-        'HÜRRİYET',
+        'AYDIN',
         'AYLİN',
         'ÇETİN',
         'ÖZKAN',
