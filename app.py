@@ -119,9 +119,7 @@ GROUPS: dict[str, list[str]] = {
         'KAPLAN',
         'KÖKNAR',
         'NÜKHET',
-        'NİLGÜN',
-        'PAPATYA',
-        'CANSU',
+
     ],
 
     "B3": [
@@ -133,6 +131,9 @@ GROUPS: dict[str, list[str]] = {
         'ÖZGEN',
         'ÖZSOY',
         'DEMİR',
+        'NİLGÜN',
+        'PAPATYA',
+        'CANSU',
     ],
 
     "C1": [
