@@ -338,14 +338,12 @@ GROUPS: dict[str, list[str]] = {
     ],
 
     "K1": [
-        'YEŞİLYUVA',
         'GÖRKEM',
         'CADDE SAĞLIK',
         'CANSU ERKİLET',
         'CANSUYU',
         'CEYLAN',
         "ELİF'İN",
-        'EMEK',
         'GÜNEŞ',
         'İZMİRLİ',
     ],
@@ -357,6 +355,8 @@ GROUPS: dict[str, list[str]] = {
         'PARK BOTANİK',
         'SERVET',
         'TUGAY',
+        'YEŞİLYUVA',
+        'EMEK',
 
     ],
 
