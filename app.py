@@ -564,8 +564,8 @@ def minimum_spanning_edges(
                     continue
 
                 distance = latlon_distance_m(
-                    points[i],
-                    points[j],
+                    draw_points[i],
+                    draw_points[j],
                 )
 
                 if (
@@ -589,6 +589,95 @@ def minimum_spanning_edges(
         used.add(j)
 
     return edges
+
+
+
+
+# ============================================================
+# GÖRSEL KOORDİNAT AYRIŞTIRMA
+# Aynı / neredeyse aynı koordinattaki eczaneleri ekranda ayırır.
+# ÖNEMLİ: Latitude / Longitude gerçek koordinat olarak korunur.
+# Yoğunluk çemberi ve mesafe hesabı GERÇEK koordinatları kullanır.
+# ============================================================
+
+def add_display_coordinates(
+    df: pd.DataFrame,
+    overlap_threshold_m: float = 3.0,
+    spread_radius_m: float = 8.0,
+) -> pd.DataFrame:
+    """
+    Birbirine çok yakın (varsayılan <= 3 m) eczaneleri yalnızca görsel
+    olarak küçük bir halka üzerine dağıtır. Gerçek koordinatlar değişmez.
+
+    Böylece:
+    - 1 eczane = 1 görünür nokta,
+    - üst üste binen markerlar kaybolmaz,
+    - yoğunluk çemberi gerçek konumdan hesap yapmaya devam eder.
+    """
+
+    work = df.copy().reset_index(drop=True)
+    work["DisplayLatitude"] = work["Latitude"].astype(float)
+    work["DisplayLongitude"] = work["Longitude"].astype(float)
+
+    if len(work) < 2:
+        return work
+
+    # Yakın noktaları bağlı bileşen mantığıyla kümelendir.
+    unvisited = set(range(len(work)))
+    clusters: list[list[int]] = []
+
+    while unvisited:
+        seed = unvisited.pop()
+        cluster = [seed]
+        queue = [seed]
+
+        while queue:
+            i = queue.pop()
+            a = (
+                float(work.at[i, "Latitude"]),
+                float(work.at[i, "Longitude"]),
+            )
+
+            nearby = []
+            for j in list(unvisited):
+                b = (
+                    float(work.at[j, "Latitude"]),
+                    float(work.at[j, "Longitude"]),
+                )
+                if latlon_distance_m(a, b) <= overlap_threshold_m:
+                    nearby.append(j)
+
+            for j in nearby:
+                unvisited.remove(j)
+                cluster.append(j)
+                queue.append(j)
+
+        clusters.append(cluster)
+
+    for cluster in clusters:
+        if len(cluster) <= 1:
+            continue
+
+        center_lat = sum(float(work.at[i, "Latitude"]) for i in cluster) / len(cluster)
+        center_lon = sum(float(work.at[i, "Longitude"]) for i in cluster) / len(cluster)
+
+        # Enlem / boylam derece dönüşümü (küçük mesafeler için yeterince hassas).
+        lat_deg_per_m = 1.0 / 111_320.0
+        cos_lat = max(0.2, math.cos(math.radians(center_lat)))
+        lon_deg_per_m = 1.0 / (111_320.0 * cos_lat)
+
+        # Nokta sayısı arttıkça halkayı çok az büyüt.
+        radius_m = spread_radius_m + max(0, len(cluster) - 2) * 1.25
+
+        for pos, idx in enumerate(cluster):
+            angle = (2.0 * math.pi * pos / len(cluster)) - (math.pi / 2.0)
+            north_m = math.cos(angle) * radius_m
+            east_m = math.sin(angle) * radius_m
+
+            work.at[idx, "DisplayLatitude"] = center_lat + north_m * lat_deg_per_m
+            work.at[idx, "DisplayLongitude"] = center_lon + east_m * lon_deg_per_m
+
+    return work
 
 
 # ============================================================
@@ -639,6 +728,8 @@ def add_group_lines(
                     "Anahtar",
                     "Latitude",
                     "Longitude",
+                    "DisplayLatitude",
+                    "DisplayLongitude",
                 ],
             ]
             .dropna(subset=["Latitude", "Longitude"])
@@ -652,7 +743,8 @@ def add_group_lines(
 
         color = GROUP_COLORS[group_name]
 
-        points = [
+        # MST hesabı GERÇEK koordinatlarla yapılır.
+        real_points = [
             (
                 float(row.Latitude),
                 float(row.Longitude),
@@ -660,8 +752,17 @@ def add_group_lines(
             for row in subset.itertuples(index=False)
         ]
 
+        # Çizim ise üst üste binmeleri ayıran GÖRSEL koordinatlarla yapılır.
+        draw_points = [
+            (
+                float(row.DisplayLatitude),
+                float(row.DisplayLongitude),
+            )
+            for row in subset.itertuples(index=False)
+        ]
+
         # MST her seferinde sadece güncel grup üyeleriyle sıfırdan hesaplanır.
-        edges = minimum_spanning_edges(points)
+        edges = minimum_spanning_edges(real_points)
 
         line_layer = FeatureGroup(
             name=f"{group_name} bağlantıları",
@@ -771,8 +872,8 @@ def add_markers(
 
             folium.CircleMarker(
                 location=[
-                    float(row["Latitude"]),
-                    float(row["Longitude"]),
+                    float(row["DisplayLatitude"]),
+                    float(row["DisplayLongitude"]),
                 ],
 
                 radius=6.0,
@@ -1445,6 +1546,13 @@ try:
         .map(group_map)
         .astype("string")
     )
+
+    # --------------------------------------------------------
+    # ÜST ÜSTE BİNEN MARKERLARI GÖRSEL OLARAK AYIR
+    # Gerçek Latitude/Longitude değişmez.
+    # --------------------------------------------------------
+
+    pharmacies = add_display_coordinates(pharmacies)
 
     # --------------------------------------------------------
     # SESSION STATE
