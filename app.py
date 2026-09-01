@@ -313,8 +313,7 @@ GROUPS: dict[str, list[str]] = {
         'CANDAN',
         'DEMİRCİOĞLU GÜL',
         'DEMİROĞLU',
-        'DERMAN',
-        'DEVECİ',
+
     ],
 
     "H2": [
@@ -334,6 +333,8 @@ GROUPS: dict[str, list[str]] = {
         'ZEYTİNKÖY SEMA',
         'ÜNİVERSİTE',
         'İNANÖZ',
+        'DERMAN',
+        'DEVECİ',
         
     ],
 
