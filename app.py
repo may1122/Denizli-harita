@@ -212,7 +212,6 @@ GROUPS: dict[str, list[str]] = {
         'AYFER CEYLAN',
         'TURUNÇ',
         'GÜLERYÜZ',
-        '29_EKİM',
         'ÜMİT',
         'ERTUĞRUL',
         'HASİBE KARTOĞLAN',
@@ -228,6 +227,7 @@ GROUPS: dict[str, list[str]] = {
         'ASLI',
         'KİRAZ',
         'GÖZDE GÜNDÜZ',
+        '29_EKİM',
     ],
 
     "E3": [
