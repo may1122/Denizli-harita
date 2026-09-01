@@ -291,8 +291,7 @@ GROUPS: dict[str, list[str]] = {
         'FORUM ÇAMLIK',
         'BİLGE',
         'EVREN',
-        'ANIL',
-        'DOĞAL',
+
     ],
 
     "G3": [
@@ -302,6 +301,8 @@ GROUPS: dict[str, list[str]] = {
         'SEÇKİN',
         'TEMMUZ',
         'İNCEOĞLU',
+         'ANIL',
+        'DOĞAL',
         
     ],
 
