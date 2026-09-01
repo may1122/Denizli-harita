@@ -108,7 +108,6 @@ GROUPS: dict[str, list[str]] = {
         'AKDENİZ',
         'CANDENİZ',
         'KAYHAN',
-        'DEMİR',
         'EMİR',
         'FLORYA',
         'GÜLRİZ',
@@ -133,6 +132,7 @@ GROUPS: dict[str, list[str]] = {
         'ÇİFTÇİ',
         'ÖZGEN',
         'ÖZSOY',
+        'DEMİR',
     ],
 
     "C1": [
