@@ -12,6 +12,7 @@ import streamlit as st
 import streamlit.components.v1 as components
 from folium import FeatureGroup
 from folium.plugins import Fullscreen, MeasureControl
+from branca.element import MacroElement, Template
 
 
 # ============================================================
@@ -801,6 +802,431 @@ def add_markers(
         )
 
 
+
+# ============================================================
+# YOĞUNLUK ÇEMBERİ
+# Haritada kırmızı çemberi taşıyarak içindeki eczaneleri sayar
+# ============================================================
+
+class DensityCircleControl(MacroElement):
+    """Leaflet üzerinde sürüklenebilir kırmızı çember ve canlı eczane sayacı."""
+
+    def __init__(
+        self,
+        pharmacy_points: list[dict[str, object]],
+        center_lat: float,
+        center_lon: float,
+    ):
+        super().__init__()
+        self._name = "DensityCircleControl"
+
+        import json
+
+        pharmacies_json = json.dumps(pharmacy_points, ensure_ascii=False)
+
+        self._template = Template(
+            r"""
+{% macro script(this, kwargs) %}
+(function() {
+    const map = {{ this._parent.get_name() }};
+    const pharmacies = {{ this.pharmacies_json | safe }};
+    const total = pharmacies.length;
+
+    const startLatLng = L.latLng(
+        {{ this.center_lat }},
+        {{ this.center_lon }}
+    );
+
+    const densityCircle = L.circle(startLatLng, {
+        radius: 1000,
+        color: '#C62828',
+        weight: 3,
+        opacity: 0.95,
+        fillColor: '#EF5350',
+        fillOpacity: 0.12,
+        interactive: false
+    }).addTo(map);
+
+    const centerIcon = L.divIcon({
+        className: '',
+        html: '<div style="width:24px;height:24px;border-radius:50%;background:#C62828;border:4px solid white;box-shadow:0 1px 6px rgba(0,0,0,.45);cursor:move;"></div>',
+        iconSize: [24, 24],
+        iconAnchor: [12, 12]
+    });
+
+    const centerHandle = L.marker(startLatLng, {
+        draggable: true,
+        icon: centerIcon,
+        zIndexOffset: 2000,
+        title: 'Çember merkezini sürükle'
+    }).addTo(map);
+
+    const DensityControl = L.Control.extend({
+        options: { position: 'topleft' },
+
+        onAdd: function() {
+            const div = L.DomUtil.create(
+                'div',
+                'ayca-density-panel'
+            );
+
+            div.innerHTML = `
+                <div style="font-weight:700;font-size:15px;margin-bottom:3px;">
+                    Yoğunluk Çemberi
+                </div>
+
+                <div style="font-size:11px;color:#666;margin-bottom:8px;">
+                    Tüm Denizli eczaneleri sayılıyor
+                </div>
+
+                <div style="display:flex;justify-content:space-between;gap:18px;font-size:14px;margin:5px 0;">
+                    <span>Yarıçap</span>
+                    <strong id="ayca-radius-value">1000 m</strong>
+                </div>
+
+                <div style="display:flex;justify-content:space-between;gap:18px;font-size:14px;margin:5px 0;">
+                    <span>Çember içi</span>
+                    <strong id="ayca-count-value">0 eczane</strong>
+                </div>
+
+                <div style="display:flex;justify-content:space-between;gap:18px;font-size:14px;margin:5px 0;">
+                    <span>Toplam oran</span>
+                    <strong id="ayca-share-value">0%</strong>
+                </div>
+
+                <div style="margin-top:9px;font-size:12px;font-weight:600;">
+                    Yarıçapı değiştir
+                </div>
+
+                <input
+                    id="ayca-radius-slider"
+                    type="range"
+                    min="100"
+                    max="2500"
+                    step="50"
+                    value="1000"
+                    style="width:100%;margin-top:5px;accent-color:#C62828;"
+                >
+
+                <div style="display:flex;justify-content:space-between;font-size:10px;color:#666;">
+                    <span>100 m</span>
+                    <span>2500 m</span>
+                </div>
+
+                <button
+                    id="ayca-center-mode"
+                    type="button"
+                    style="width:100%;margin-top:9px;padding:7px 8px;border:1px solid #bbb;border-radius:7px;background:white;cursor:pointer;font-weight:600;"
+                >
+                    Haritadan merkez seç
+                </button>
+
+                <div
+                    id="ayca-density-hint"
+                    style="margin-top:7px;font-size:11px;color:#666;line-height:1.3;"
+                >
+                    Kırmızı noktayı sürükleyerek çemberi taşıyabilirsiniz.
+                </div>
+
+                <div
+                    id="ayca-group-breakdown"
+                    style="margin-top:9px;padding-top:8px;border-top:1px solid #e3e3e3;font-size:11px;line-height:1.45;"
+                ></div>
+            `;
+
+            div.style.background = 'rgba(255,255,255,.97)';
+            div.style.border = '1px solid #d8d8d8';
+            div.style.borderRadius = '10px';
+            div.style.padding = '12px 14px';
+            div.style.minWidth = '225px';
+            div.style.boxShadow = '0 2px 8px rgba(0,0,0,.15)';
+            div.style.fontFamily = 'Arial, sans-serif';
+            div.style.color = '#222';
+
+            L.DomEvent.disableClickPropagation(div);
+            L.DomEvent.disableScrollPropagation(div);
+
+            return div;
+        }
+    });
+
+    map.addControl(new DensityControl());
+
+    function distanceMeters(lat1, lon1, lat2, lon2) {
+        const R = 6371000;
+        const toRad = d => d * Math.PI / 180;
+
+        const dLat = toRad(lat2 - lat1);
+        const dLon = toRad(lon2 - lon1);
+
+        const a =
+            Math.sin(dLat / 2) ** 2 +
+            Math.cos(toRad(lat1)) *
+            Math.cos(toRad(lat2)) *
+            Math.sin(dLon / 2) ** 2;
+
+        return 2 * R * Math.asin(Math.sqrt(a));
+    }
+
+    function updateDensity() {
+        const center = densityCircle.getLatLng();
+        const radius = densityCircle.getRadius();
+
+        let count = 0;
+        const groupCounts = {};
+
+        pharmacies.forEach(p => {
+            if (
+                distanceMeters(
+                    center.lat,
+                    center.lng,
+                    p.lat,
+                    p.lon
+                ) <= radius
+            ) {
+                count += 1;
+
+                const groupName = p.group || 'Grupsuz';
+                groupCounts[groupName] =
+                    (groupCounts[groupName] || 0) + 1;
+            }
+        });
+
+        const radiusEl =
+            document.getElementById('ayca-radius-value');
+
+        const countEl =
+            document.getElementById('ayca-count-value');
+
+        const shareEl =
+            document.getElementById('ayca-share-value');
+
+        const breakdownEl =
+            document.getElementById('ayca-group-breakdown');
+
+        if (radiusEl) {
+            radiusEl.textContent =
+                Math.round(radius) + ' m';
+        }
+
+        if (countEl) {
+            countEl.textContent =
+                count + ' eczane';
+        }
+
+        if (shareEl) {
+            shareEl.textContent = total
+                ? ((count / total) * 100)
+                    .toFixed(1)
+                    .replace('.', ',') + '%'
+                : '0%';
+        }
+
+        if (breakdownEl) {
+            const order = [
+                'Grup 1', 'Grup 2', 'Grup 3',
+                'Grup 4', 'Grup 5', 'Grup 6',
+                'Grup 7', 'Grup 8', 'Grup 9',
+                'Grupsuz'
+            ];
+
+            const rows = order
+                .filter(group => groupCounts[group])
+                .map(
+                    group =>
+                        `<div style="display:flex;justify-content:space-between;gap:14px;">
+                            <span>${group}</span>
+                            <strong>${groupCounts[group]}</strong>
+                        </div>`
+                )
+                .join('');
+
+            breakdownEl.innerHTML = rows
+                ? '<div style="font-weight:700;margin-bottom:4px;">Grup dağılımı</div>' + rows
+                : '<span style="color:#777;">Çember içinde eczane yok.</span>';
+        }
+    }
+
+    centerHandle.on('drag', function(e) {
+        densityCircle.setLatLng(
+            e.target.getLatLng()
+        );
+
+        updateDensity();
+    });
+
+    centerHandle.on('dragend', function(e) {
+        densityCircle.setLatLng(
+            e.target.getLatLng()
+        );
+
+        updateDensity();
+    });
+
+    setTimeout(function() {
+
+        const slider =
+            document.getElementById('ayca-radius-slider');
+
+        const centerButton =
+            document.getElementById('ayca-center-mode');
+
+        const hint =
+            document.getElementById('ayca-density-hint');
+
+        let chooseCenter = false;
+
+        if (slider) {
+
+            slider.addEventListener(
+                'input',
+                function() {
+
+                    densityCircle.setRadius(
+                        Number(this.value)
+                    );
+
+                    updateDensity();
+                }
+            );
+        }
+
+        if (centerButton) {
+
+            centerButton.addEventListener(
+                'click',
+                function() {
+
+                    chooseCenter =
+                        !chooseCenter;
+
+                    if (chooseCenter) {
+
+                        this.textContent =
+                            'Haritada bir noktaya tıkla';
+
+                        this.style.background =
+                            '#FDECEC';
+
+                        this.style.borderColor =
+                            '#C62828';
+
+                        if (hint) {
+                            hint.textContent =
+                                'Şimdi haritada çemberin merkezini istediğiniz yere tıklayın.';
+                        }
+
+                    } else {
+
+                        this.textContent =
+                            'Haritadan merkez seç';
+
+                        this.style.background =
+                            'white';
+
+                        this.style.borderColor =
+                            '#bbb';
+
+                        if (hint) {
+                            hint.textContent =
+                                'Kırmızı noktayı sürükleyerek çemberi taşıyabilirsiniz.';
+                        }
+                    }
+                }
+            );
+        }
+
+        map.on(
+            'click',
+            function(e) {
+
+                if (!chooseCenter) {
+                    return;
+                }
+
+                centerHandle.setLatLng(
+                    e.latlng
+                );
+
+                densityCircle.setLatLng(
+                    e.latlng
+                );
+
+                updateDensity();
+
+                chooseCenter = false;
+
+                if (centerButton) {
+
+                    centerButton.textContent =
+                        'Haritadan merkez seç';
+
+                    centerButton.style.background =
+                        'white';
+
+                    centerButton.style.borderColor =
+                        '#bbb';
+                }
+
+                if (hint) {
+                    hint.textContent =
+                        'Merkez değiştirildi. Kırmızı noktayı da sürükleyebilirsiniz.';
+                }
+            }
+        );
+
+        updateDensity();
+
+    }, 0);
+
+})();
+{% endmacro %}
+"""
+        )
+
+        self.pharmacies_json = pharmacies_json
+        self.center_lat = center_lat
+        self.center_lon = center_lon
+
+
+def add_density_circle(
+    map_obj: folium.Map,
+    df: pd.DataFrame,
+) -> None:
+    """Tüm eczaneleri sayan kırmızı yoğunluk çemberini haritaya ekler."""
+
+    if df.empty:
+        return
+
+    pharmacy_points = []
+
+    for _, row in df.iterrows():
+
+        group_value = row.get("Grup")
+
+        if pd.isna(group_value):
+            group_name = "Grupsuz"
+        else:
+            group_name = str(group_value)
+
+        pharmacy_points.append(
+            {
+                "name": str(row["Eczane"]),
+                "lat": float(row["Latitude"]),
+                "lon": float(row["Longitude"]),
+                "group": group_name,
+            }
+        )
+
+    control = DensityCircleControl(
+        pharmacy_points=pharmacy_points,
+        center_lat=float(df["Latitude"].median()),
+        center_lon=float(df["Longitude"].median()),
+    )
+
+    control.add_to(map_obj)
+
+
 # ============================================================
 # HARİTAYI OLUŞTUR
 # ============================================================
@@ -836,39 +1262,22 @@ def build_map(
     )
 
     # --------------------------------------------------------
-    # SADE HARİTA
+    # HARİTA ALTLIĞI — SİVAS İLE AYNI
+    # API key gerektirmez
     # --------------------------------------------------------
 
     folium.TileLayer(
-        tiles=(
-            "https://{s}.basemaps.cartocdn.com/"
-            "light_all/{z}/{x}/{y}{r}.png"
-        ),
-        attr=(
-            "&copy; OpenStreetMap contributors "
-            "&copy; CARTO"
-        ),
+        tiles="CartoDB positron",
         name="Sade harita",
         control=True,
         show=True,
-        subdomains="abcd",
-        max_zoom=20,
     ).add_to(m)
 
-    # --------------------------------------------------------
-    # DETAYLI HARİTA
-    # --------------------------------------------------------
-
     folium.TileLayer(
-        tiles=(
-            "https://{s}.tile.openstreetmap.org/"
-            "{z}/{x}/{y}.png"
-        ),
-        attr="&copy; OpenStreetMap contributors",
+        tiles="OpenStreetMap",
         name="Detaylı harita",
         control=True,
         show=False,
-        max_zoom=19,
     ).add_to(m)
 
     # --------------------------------------------------------
@@ -888,6 +1297,16 @@ def build_map(
         m,
         df,
         selected_groups,
+    )
+
+    # --------------------------------------------------------
+    # KIRMIZI YOĞUNLUK ÇEMBERİ
+    # Tüm eczaneleri canlı olarak sayar.
+    # --------------------------------------------------------
+
+    add_density_circle(
+        m,
+        df,
     )
 
     # --------------------------------------------------------
@@ -1134,7 +1553,8 @@ try:
 
     st.caption(
         "9 grup · aynı gruptaki eczaneler "
-        "kesikli çizgilerle birbirine bağlanır"
+        "kesikli çizgilerle birbirine bağlanır · "
+        "kırmızı yoğunluk çemberi içindeki eczaneleri canlı sayar"
     )
 
     # --------------------------------------------------------
