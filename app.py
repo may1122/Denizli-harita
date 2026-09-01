@@ -122,12 +122,12 @@ GROUPS: dict[str, list[str]] = {
         'SEMİH',
         'TURAN',
         'UĞUR',
+        'ÖZGEN',
     ],
 
     "B3": [
         'ÇAKMAK',
         'ÇİFTÇİ',
-        'ÖZGEN',
         'ÖZSOY',
         'DEMİR',
         'NİLGÜN',
