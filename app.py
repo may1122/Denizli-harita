@@ -166,6 +166,7 @@ GROUPS: dict[str, list[str]] = {
         'FATIMA ŞENTÜRK',
         'ÇETİNKAYA',
         'FATİH',
+        'GÜRKAN',
     ],
 
     "D1": [
@@ -297,7 +298,6 @@ GROUPS: dict[str, list[str]] = {
         'TEMMUZ',
         'İNCEOĞLU',
         'DİŞÇİOĞLU',
-        'GÜRKAN',
     ],
 
     "H1": [
