@@ -168,6 +168,7 @@ GROUPS: dict[str, list[str]] = {
         'ÇETİNKAYA',
         'FATİH',
         'GÜRKAN',
+        'ASMALI',
     ],
 
     "D1": [
@@ -180,7 +181,7 @@ GROUPS: dict[str, list[str]] = {
         'EFE',
         'GÜLAY',
         'IŞIL',
-        'ASMALI',
+      
     ],
 
     "D2": [
