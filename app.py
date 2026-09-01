@@ -366,7 +366,7 @@ GROUPS: dict[str, list[str]] = {
         'ŞİRİN',
         'ALTINOVA',
         'TÜFEKÇİOĞLU',
-        'ELİF',
+        'ELİF İN',
     ],
 
 }
