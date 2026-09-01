@@ -564,8 +564,8 @@ def minimum_spanning_edges(
                     continue
 
                 distance = latlon_distance_m(
-                    draw_points[i],
-                    draw_points[j],
+                    points[i],
+                    points[j],
                 )
 
                 if (
@@ -793,8 +793,8 @@ def add_group_lines(
 
             folium.PolyLine(
                 locations=[
-                    points[i],
-                    points[j],
+                    draw_points[i],
+                    draw_points[j],
                 ],
                 color=color,
                 weight=2.4,
