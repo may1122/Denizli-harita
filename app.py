@@ -309,10 +309,10 @@ GROUPS: dict[str, list[str]] = {
         'BERGAMA',
         'KEKİK',
         'CEREN FİLİZER',
-        'ALSANCAK',
+        'ÜNİVERSİTE',
         'CANDAN',
         'DEMİRCİOĞLU GÜL',
-        'DEMİROĞLU',
+        'SAYGIN',
 
     ],
 
@@ -323,7 +323,7 @@ GROUPS: dict[str, list[str]] = {
         'KIZILTAŞ',
         'MERVE YAMUÇ',
         'PAMUKKALE',
-        'SAYGIN',
+        'DEMİROĞLU',
     ],
 
     "H3": [
@@ -331,7 +331,7 @@ GROUPS: dict[str, list[str]] = {
         'SU',
         'TUBA',
         'ZEYTİNKÖY SEMA',
-        'ÜNİVERSİTE',
+        'ALSANCAK',
         'İNANÖZ',
         'DERMAN',
         'DEVECİ',
