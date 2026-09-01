@@ -82,10 +82,10 @@ GROUPS: dict[str, list[str]] = {
     ],
 
     "A2": [
- 
         'DOKUZKAVAKLAR',
         'GAMZE',
-        'DELİKTAŞ',
+        'MAVİ',
+        'MİRA',
         'KOÇAK',
         'BÜŞRA BOYACI',
         'BAŞDİL',
@@ -94,14 +94,13 @@ GROUPS: dict[str, list[str]] = {
 
     "A3": [
         'BAKLAN',
-        'MAVİ',
-        'MİRA',
         'NEVA',
         'SEMT',
         'AYŞEN',
         'ZEYNEP',
         'ÇALLIOĞLU',
         'DİLEK',
+        'DELİKTAŞ',
     ],
 
     "B1": [
