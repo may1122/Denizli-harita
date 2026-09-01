@@ -71,14 +71,15 @@ GROUP_COLORS = {
 GROUPS: dict[str, list[str]] = {
     "A1": [
         'AYNUR GÜLER',
-        'AYŞEN',
-        'BAKLAN',
         'BAŞDİL',
         'BAŞÇAVUŞ',
         'BÜŞRA BOYACI',
         'CEYDA POLAT',
-        'DELİKTAŞ',
+
         'DEMİRTAŞ',
+        'YENİLMEZ',
+        'KUNDAKÇI',
+        'GENCER',
     ],
 
     "A2": [
@@ -86,18 +87,18 @@ GROUPS: dict[str, list[str]] = {
         'DOKUZKAVAKLAR',
         'ERMAN',
         'GAMZE',
-        'GENCER',
+        'DELİKTAŞ',
         'KAYDIHAN',
         'KOÇAK',
     ],
 
     "A3": [
-        'KUNDAKÇI',
+        'BAKLAN',
         'MAVİ',
         'MİRA',
         'NEVA',
         'SEMT',
-        'YENİLMEZ',
+        'AYŞEN',
         'ZEYNEP',
         'ÇALLIOĞLU',
         'DİLEK',
