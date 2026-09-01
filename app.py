@@ -104,25 +104,27 @@ GROUPS: dict[str, list[str]] = {
     ],
 
     "B1": [
-        'ADALET',
+
         'AKDENİZ',
         'CANDENİZ',
         'KAYHAN',
-        'EMİR',
-        'FLORYA',
-        'GÜLRİZ',
-        'HACETTEPE',
-    ],
-
-    "B2": [
         'HAZAR',
         'KAPLAN',
         'KÖKNAR',
+        'FLORYA',
+        'TURAN',
+
+    ],
+
+    "B2": [
         'NÜKHET',
         'SEMİH',
-        'TURAN',
         'UĞUR',
         'ÖZGEN',
+        'GÜLRİZ',
+        'HACETTEPE',
+        'EMİR',
+        'ADALET',
     ],
 
     "B3": [
