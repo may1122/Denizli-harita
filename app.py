@@ -876,7 +876,7 @@ class DensityCircleControl(MacroElement):
                 </div>
 
                 <div style="font-size:11px;color:#666;margin-bottom:8px;">
-                    Tüm Denizli eczaneleri sayılıyor
+                    Yalnızca haritada görünür eczaneler sayılıyor
                 </div>
 
                 <div style="display:flex;justify-content:space-between;gap:18px;font-size:14px;margin:5px 0;">
@@ -1192,22 +1192,21 @@ class DensityCircleControl(MacroElement):
 def add_density_circle(
     map_obj: folium.Map,
     df: pd.DataFrame,
+    selected_groups: set[str],
 ) -> None:
-    """Tüm eczaneleri sayan kırmızı yoğunluk çemberini haritaya ekler."""
+    """Haritada görünür olan seçili gruplardaki eczaneleri sayar."""
 
-    if df.empty:
+    visible_df = df.loc[
+        df["Grup"].isin(selected_groups)
+    ].copy()
+
+    if visible_df.empty:
         return
 
     pharmacy_points = []
 
-    for _, row in df.iterrows():
-
-        group_value = row.get("Grup")
-
-        if pd.isna(group_value):
-            group_name = "Grupsuz"
-        else:
-            group_name = str(group_value)
+    for _, row in visible_df.iterrows():
+        group_name = str(row["Grup"])
 
         pharmacy_points.append(
             {
@@ -1220,8 +1219,8 @@ def add_density_circle(
 
     control = DensityCircleControl(
         pharmacy_points=pharmacy_points,
-        center_lat=float(df["Latitude"].median()),
-        center_lon=float(df["Longitude"].median()),
+        center_lat=float(visible_df["Latitude"].median()),
+        center_lon=float(visible_df["Longitude"].median()),
     )
 
     control.add_to(map_obj)
@@ -1307,6 +1306,7 @@ def build_map(
     add_density_circle(
         m,
         df,
+        selected_groups,
     )
 
     # --------------------------------------------------------
