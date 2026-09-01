@@ -283,10 +283,11 @@ GROUPS: dict[str, list[str]] = {
         'KABAYUKA',
         'PAMUKKALE AKTÜRK',
         'ZEYNEP SULTAN',
+        'ÖZGÜR',
     ],
 
     "G2": [
-        'ÖZGÜR',
+
         'ALPLER',
         'FORUM ÇAMLIK',
         'BİLGE',
