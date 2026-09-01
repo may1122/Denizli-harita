@@ -34,264 +34,336 @@ ECZANE_FILE_NAME = "denizli_eczaneler.xlsx"
 # ============================================================
 
 GROUP_COLORS = {
-    "Grup 1": "#6A1B9A",  # mor
-    "Grup 2": "#1565C0",  # mavi
-    "Grup 3": "#00897B",  # turkuaz
-    "Grup 4": "#EF6C00",  # turuncu
-    "Grup 5": "#2E7D32",  # yeşil
-    "Grup 6": "#C62828",  # kırmızı
-    "Grup 7": "#7B1FA2",  # eflatun
-    "Grup 8": "#42A5F5",  # açık mavi
-    "Grup 9": "#F9A825",  # sarı / kehribar
+    "A1": "#4A148C",
+    "A2": "#7B1FA2",
+    "A3": "#AB47BC",
+    "B1": "#0D47A1",
+    "B2": "#1976D2",
+    "B3": "#64B5F6",
+    "C1": "#00695C",
+    "C2": "#00897B",
+    "C3": "#4DB6AC",
+    "D1": "#E65100",
+    "D2": "#EF6C00",
+    "D3": "#FFB74D",
+    "E1": "#1B5E20",
+    "E2": "#388E3C",
+    "E3": "#81C784",
+    "F1": "#B71C1C",
+    "F2": "#D32F2F",
+    "F3": "#EF5350",
+    "G1": "#4A148C",
+    "G2": "#8E24AA",
+    "G3": "#CE93D8",
+    "H1": "#01579B",
+    "H2": "#039BE5",
+    "H3": "#81D4FA",
+    "K1": "#F57F17",
+    "K2": "#F9A825",
+    "K3": "#FFD54F",
 }
 
 
 # ============================================================
-# DENİZLİ 9 GRUP
+# DENİZLİ 9 ANA GRUP / 27 ALT GRUP
 # ============================================================
 
 GROUPS: dict[str, list[str]] = {
-
-    "Grup 1": [
-        "AYNUR GÜLER",
-        "AYŞEN",
-        "BAKLAN",
-        "BAŞDİL",
-        "BAŞÇAVUŞ",
-        "BÜŞRA BOYACI",
-        "CEYDA POLAT",
-        "DELİKTAŞ",
-        "DEMİRTAŞ",
-        "DERYAM",
-        "DOKUZKAVAKLAR",
-        "ERMAN",
-        "GAMZE",
-        "GENCER",
-        "KAYDIHAN",
-        "KOÇAK",
-        "KUNDAKÇI",
-        "MAVİ",
-        "MİRA",
-        "NEVA",
-        "SEMT",
-        "YENİLMEZ",
-        "ZEYNEP",
-        "ÇALLIOĞLU",
-        "DİLEK",
+    "A1": [
+        'AYNUR GÜLER',
+        'AYŞEN',
+        'BAKLAN',
+        'BAŞDİL',
+        'BAŞÇAVUŞ',
+        'BÜŞRA BOYACI',
+        'CEYDA POLAT',
+        'DELİKTAŞ',
+        'DEMİRTAŞ',
     ],
 
-    "Grup 2": [
-        "ANIL",
-        "AYGÖREN",
-        "AYKUT",
-        "BAYRAMYERİ",
-        "BÜYÜK",
-        "DAĞDEVİREN",
-        "DOĞAL",
-        "DUYGU",
-        "EGE",
-        "ELİF",
-        "ERCAN",
-        "ERDEM",
-        "ESİN",
-        "NEŞE",
-        "SAĞLIK",
-        "SERGEN",
-        "SEVİL",
-        "SEÇKİN",
-        "TEMMUZ",
-        "ÖZDERMAN",
-        "İNCEOĞLU",
-        "ŞULE",
-        "ŞİFA",
+    "A2": [
+        'DERYAM',
+        'DOKUZKAVAKLAR',
+        'ERMAN',
+        'GAMZE',
+        'GENCER',
+        'KAYDIHAN',
+        'KOÇAK',
     ],
 
-    "Grup 3": [
-        "ADALET",
-        "AKDENİZ",
-        "CANDENİZ",
-        "CANSU",
-        "DEMİR",
-        "EMİR",
-        "FLORYA",
-        "GÜLRİZ",
-        "HACETTEPE",
-        "HAZAR",
-        "KAPLAN",
-        "KAYHAN",
-        "KÖKNAR",
-        "NÜKHET",
-        "NİLGÜN",
-        "PAPATYA",
-        "SEMİH",
-        "TURAN",
-        "UĞUR",
-        "ÇAKMAK",
-        "ÇİFTÇİ",
-        "ÖZGEN",
-        "ÖZSOY",
+    "A3": [
+        'KUNDAKÇI',
+        'MAVİ',
+        'MİRA',
+        'NEVA',
+        'SEMT',
+        'YENİLMEZ',
+        'ZEYNEP',
+        'ÇALLIOĞLU',
+        'DİLEK',
     ],
 
-    "Grup 4": [
-        "ADALI",
-        "ARCA",
-        "BAYRAMOĞLU",
-        "BURCU",
-        "CADDE",
-        "CANAN",
-        "DEMİRAY",
-        "DENİZLİ",
-        "EFE",
-        "EZO",
-        "GÖKHAN",
-        "GÖKSU",
-        "GÜLAY",
-        "GÜLEÇ",
-        "GÜNGÖR",
-        "IŞIL",
-        "KIVILCIM",
-        "LOKMAN",
-        "LİMONCU",
-        "MERVE",
-        "MORALIOĞLU",
-        "NUR BAŞÇAVUŞ",
-        "VERESELİ DENİZLİ",
-        "ÇAKMAKLIOĞLU",
-        "ÇOMUT",
+    "B1": [
+        'ADALET',
+        'AKDENİZ',
+        'CANDENİZ',
+        'CANSU',
+        'DEMİR',
+        'EMİR',
+        'FLORYA',
+        'GÜLRİZ',
+        'HACETTEPE',
     ],
 
-    "Grup 5": [
-        "ADA",
-        "AKKAYA",
-        "ANAFARTALAR",
-        "ASMALI",
-        "AYFER CEYLAN",
-        "CEYHAN",
-        "DENİZİM",
-        "DİNÇ",
-        "DİŞÇİOĞLU",
-        "EZGİ",
-        "FATIMA ŞENTÜRK",
-        "FATİH",
-        "GÜRKAN",
-        "HASİBE KARTOĞLAN",
-        "MERKEZ",
-        "OCAK",
-        "PELİTLİBAĞ",
-        "SEVİM",
-        "TOLGAY",
-        "TURUNÇ",
-        "UZMAN",
-        "ÇETİNKAYA",
-        "ÖZCEL",
-        "ÖZNUR",
-        "GÜLERYÜZ",
+    "B2": [
+        'HAZAR',
+        'KAPLAN',
+        'KAYHAN',
+        'KÖKNAR',
+        'NÜKHET',
+        'NİLGÜN',
+        'PAPATYA',
     ],
 
-    "Grup 6": [
-        "ALBAYRAK",
-        "AYDIN",
-        "AYLİN",
-        "ELİF PAMUKÇU",
-        "ERSAN",
-        "HÜRRİYET",
-        "KINIKLI",
-        "KÖSELER",
-        "MEHMET KAYA",
-        "MERKEZEFENDİ",
-        "MUTLU GÜNLER",
-        "NİSAN",
-        "OKYANUS",
-        "SAHRA",
-        "SARAÇOĞLU",
-        "SEDA BAŞDİL",
-        "TURKUAZ",
-        "YEŞİLYURT",
-        "ÇAMLICA",
-        "ÇETİN",
-        "ÖZKAN",
-        "İSTİKLAL",
+    "B3": [
+        'SEMİH',
+        'TURAN',
+        'UĞUR',
+        'ÇAKMAK',
+        'ÇİFTÇİ',
+        'ÖZGEN',
+        'ÖZSOY',
     ],
 
-    "Grup 7": [
-        "29_EKİM",
-        "AKTÜRK",
-        "ASLI",
-        "CEMRE",
-        "EKİZ",
-        "ELVAN",
-        "ERTUĞRUL",
-        "GÖKKUŞAĞI",
-        "GÖZDE GÜNDÜZ",
-        "IŞIMLIK",
-        "KABAYUKA",
-        "KİRAZ",
-        "PAMUKKALE AKTÜRK",
-        "SENA KELLECİ",
-        "SİNEM",
-        "UMAY",
-        "ZEYNEP SULTAN",
-        "ÖZGÜR",
-        "ÜMİT",
-        "İLKE",
-        "ALPLER",
-        "FORUM ÇAMLIK",
-        "BİLGE",
-        "EVREN",
+    "C1": [
+        'AYKUT',
+        'ESİN',
+        'ÖZDERMAN',
+        'BAYRAMYERİ',
+        'SERGEN',
+        'DAĞDEVİREN',
+        'EGE',
+        'ŞULE',
+        'ŞİFA',
     ],
 
-    "Grup 8": [
-        "BERGAMA",
-        "KEKİK",
-        "CEREN FİLİZER",
-        "ALSANCAK",
-        "CANDAN",
-        "DEMİRCİOĞLU GÜL",
-        "DEMİROĞLU",
-        "DERMAN",
-        "DEVECİ",
-        "EZGİ KIRDI",
-        "GÖKÇE",
-        "GÜRSOY",
-        "KIZILTAŞ",
-        "MERVE YAMUÇ",
-        "PAMUKKALE",
-        "SAYGIN",
-        "SOYLU",
-        "SU",
-        "TUBA",
-        "ZEYTİNKÖY SEMA",
-        "ÜNİVERSİTE",
-        "İNANÖZ",
+    "C2": [
+        'BÜYÜK',
+        'SAĞLIK',
+        'DUYGU',
+        'ERCAN',
+        'ERDEM',
+        'DENİZLİ',
+        'ANAFARTALAR',
     ],
 
-    "Grup 9": [
-        "ALTINOVA",
-        "BAHAR",
-        "CADDE SAĞLIK",
-        "CANSU ERKİLET",
-        "CANSUYU",
-        "CEYLAN",
+    "C3": [
+        'CEYHAN',
+        'ÖZNUR',
+        'MERVE',
+        'MERKEZ',
+        'PELİTLİBAĞ',
+        'FATIMA ŞENTÜRK',
+        'ÇETİNKAYA',
+        'FATİH',
+    ],
+
+    "D1": [
+        'ÇOMUT',
+        'CANAN',
+        'ARCA',
+        'GÖKSU',
+        'MORALIOĞLU',
+        'DEMİRAY',
+        'EFE',
+        'GÜLAY',
+        'IŞIL',
+    ],
+
+    "D2": [
+        'AYGÖREN',
+        'ÇAKMAKLIOĞLU',
+        'VERESELİ DENİZLİ',
+        'CADDE',
+        'ADALI',
+        'BURCU',
+        'LİMONCU',
+    ],
+
+    "D3": [
+        'BAYRAMOĞLU',
+        'GÖKHAN',
+        'GÜNGÖR',
+        'EZO',
+        'GÜLEÇ',
+        'LOKMAN',
+        'KIVILCIM',
+        'NUR BAŞÇAVUŞ',
+    ],
+
+    "E1": [
+        'AYFER CEYLAN',
+        'TURUNÇ',
+        'GÜLERYÜZ',
+        '29_EKİM',
+        'ÜMİT',
+        'ERTUĞRUL',
+        'HASİBE KARTOĞLAN',
+        'ÖZCEL',
+        'SEVİM',
+    ],
+
+    "E2": [
+        'SENA KELLECİ',
+        'İLKE',
+        'UMAY',
+        'AKTÜRK',
+        'ASLI',
+        'KİRAZ',
+        'GÖZDE GÜNDÜZ',
+    ],
+
+    "E3": [
+        'OCAK',
+        'TOLGAY',
+        'AKKAYA',
+        'ADA',
+        'UZMAN',
+        'DENİZİM',
+        'DİNÇ',
+        'EZGİ',
+    ],
+
+    "F1": [
+        'SEDA BAŞDİL',
+        'MERKEZEFENDİ',
+        'TURKUAZ',
+        'YEŞİLYURT',
+        'MEHMET KAYA',
+        'NİSAN',
+        'NEFES',
+        'BAHAR',
+    ],
+
+    "F2": [
+        'ELİF PAMUKÇU',
+        'OKYANUS',
+        'KINIKLI',
+        'SARAÇOĞLU',
+        'MUTLU GÜNLER',
+        'ÇAMLICA',
+        'AYDIN',
+    ],
+
+    "F3": [
+        'İSTİKLAL',
+        'HÜRRİYET',
+        'AYLİN',
+        'ÇETİN',
+        'ÖZKAN',
+        'KÖSELER',
+        'ERSAN',
+        'ALBAYRAK',
+        'SAHRA',
+    ],
+
+    "G1": [
+        'CEMRE',
+        'EKİZ',
+        'ELVAN',
+        'GÖKKUŞAĞI',
+        'SİNEM',
+        'IŞIMLIK',
+        'KABAYUKA',
+        'PAMUKKALE AKTÜRK',
+        'ZEYNEP SULTAN',
+    ],
+
+    "G2": [
+        'ÖZGÜR',
+        'ALPLER',
+        'FORUM ÇAMLIK',
+        'BİLGE',
+        'EVREN',
+        'ANIL',
+        'DOĞAL',
+    ],
+
+    "G3": [
+        'ELİF',
+        'NEŞE',
+        'SEVİL',
+        'SEÇKİN',
+        'TEMMUZ',
+        'İNCEOĞLU',
+        'DİŞÇİOĞLU',
+        'GÜRKAN',
+    ],
+
+    "H1": [
+        'BERGAMA',
+        'KEKİK',
+        'CEREN FİLİZER',
+        'ALSANCAK',
+        'CANDAN',
+        'DEMİRCİOĞLU GÜL',
+        'DEMİROĞLU',
+        'DERMAN',
+        'DEVECİ',
+    ],
+
+    "H2": [
+        'EZGİ KIRDI',
+        'GÖKÇE',
+        'GÜRSOY',
+        'KIZILTAŞ',
+        'MERVE YAMUÇ',
+        'PAMUKKALE',
+        'SAYGIN',
+    ],
+
+    "H3": [
+        'SOYLU',
+        'SU',
+        'TUBA',
+        'ZEYTİNKÖY SEMA',
+        'ÜNİVERSİTE',
+        'İNANÖZ',
+        'ASLAN',
+    ],
+
+    "K1": [
+        'ALTINOVA',
+        'GÖRKEM',
+        'CADDE SAĞLIK',
+        'CANSU ERKİLET',
+        'CANSUYU',
+        'CEYLAN',
         "ELİF'İN",
-        "EMEK",
-        "GÖRKEM",
-        "GÜNEŞ",
-        "IRMAK",
-        "NAZAN",
-        "OZAN",
-        "PARK BOTANİK",
-        "SERVET",
-        "TUGAY",
-        "TÜFEKÇİOĞLU",
-        "YEŞİLYUVA",
-        "ÇAMLIK",
-        "ÖZGÜ",
-        "ÖZGÜN KIYAT",
-        "İZMİRLİ",
-        "ŞİRİN",
-        "NEFES",
-        "ASLAN",
+        'EMEK',
+        'GÜNEŞ',
     ],
+
+    "K2": [
+        'IRMAK',
+        'NAZAN',
+        'OZAN',
+        'PARK BOTANİK',
+        'SERVET',
+        'TUGAY',
+        'TÜFEKÇİOĞLU',
+    ],
+
+    "K3": [
+        'YEŞİLYUVA',
+        'ÇAMLIK',
+        'ÖZGÜ',
+        'ÖZGÜN KIYAT',
+        'İZMİRLİ',
+        'ŞİRİN',
+        'ASMALI',
+    ],
+
 }
 
 
@@ -977,7 +1049,7 @@ class DensityCircleControl(MacroElement):
                 </div>
 
                 <div style="font-size:11px;color:#666;margin-bottom:8px;">
-                    Yalnızca haritada görünür eczaneler sayılıyor
+                    Yalnızca haritada görünür alt gruplardaki eczaneler sayılıyor
                 </div>
 
                 <div style="display:flex;justify-content:space-between;gap:18px;font-size:14px;margin:5px 0;">
@@ -1124,12 +1196,7 @@ class DensityCircleControl(MacroElement):
         }
 
         if (breakdownEl) {
-            const order = [
-                'Grup 1', 'Grup 2', 'Grup 3',
-                'Grup 4', 'Grup 5', 'Grup 6',
-                'Grup 7', 'Grup 8', 'Grup 9',
-                'Grupsuz'
-            ];
+            const order = ['A1', 'A2', 'A3', 'B1', 'B2', 'B3', 'C1', 'C2', 'C3', 'D1', 'D2', 'D3', 'E1', 'E2', 'E3', 'F1', 'F2', 'F3', 'G1', 'G2', 'G3', 'H1', 'H2', 'H3', 'K1', 'K2', 'K3', 'Grupsuz'];
 
             const rows = order
                 .filter(group => groupCounts[group])
@@ -1565,7 +1632,7 @@ try:
     # ========================================================
 
     st.sidebar.header(
-        "Denizli 9 Grup"
+        "Denizli 9 Ana Grup / 27 Alt Grup"
     )
 
     c1, c2 = st.sidebar.columns(2)
@@ -1660,7 +1727,7 @@ try:
     )
 
     st.caption(
-        "9 grup · aynı gruptaki eczaneler "
+        "9 ana grup · 27 alt grup · aynı alt gruptaki eczaneler "
         "kesikli çizgilerle birbirine bağlanır · "
         "kırmızı yoğunluk çemberi içindeki eczaneleri canlı sayar"
     )
