@@ -82,7 +82,7 @@ GROUPS: dict[str, list[str]] = {
     ],
 
     "A3": [
-        'DOKUZKAVAKLAR',
+        'SEMT',
         'GAMZE',
         'MAVİ',
         'MİRA',
@@ -95,7 +95,7 @@ GROUPS: dict[str, list[str]] = {
     "A2": [
         'BAKLAN',
         'NEVA',
-        'SEMT',
+        'DOKUZKAVAKLAR',
         'AYŞEN',
         'ZEYNEP',
         'ÇALLIOĞLU',
