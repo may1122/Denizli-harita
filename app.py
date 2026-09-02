@@ -297,7 +297,7 @@ GROUPS: dict[str, list[str]] = {
         "MORARLIOĞLU",
         "ARCA",
         "GÜLAY",
-        "MORARLIOĞLU",
+        "MORALIOĞLU",
         "EZO",
         "LOKMAN",
         "ŞULE",
