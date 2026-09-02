@@ -116,6 +116,7 @@ GROUPS: dict[str, list[str]] = {
         "GÜLERYÜZ",
         "AYFER CEYLAN",
           "ASLI",
+         "HASİBE KARTOĞLU",
  
 
     ],
@@ -293,6 +294,7 @@ GROUPS: dict[str, list[str]] = {
     ],
 
     "E1": [
+        "MORARLIOĞLU",
         "ARCA",
         "GÜLAY",
         "MORARLIOĞLU",
