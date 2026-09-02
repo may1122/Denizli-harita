@@ -30,32 +30,31 @@ ECZANE_FILE_NAME = "denizli_eczaneler.xlsx"
 
 
 # ============================================================
-# ŞİMDİLİK SADECE GRUP A AKTİF
-# A1 / A2 / A3 kendi içinde bağlanır.
+# ŞİMDİLİK SADECE GRUP A VE B AKTİF
+# A1-A3 ve B1-B3 kendi içinde bağlanır.
 # Diğer tüm eczaneler "DİĞER" olarak düz gösterilir.
 # ============================================================
 
-A_GROUPS: dict[str, list[str]] = {
+GROUPS: dict[str, list[str]] = {
     "A1": [
         "KEKİK",
         "ALBAYRAK",
         "CEREN FİLİZER",
-        "CAN SUYU",
+        "GENCER",
         "IRMAK",
         "OZAN",
         "ÖZGÜ",
-       
+        "SAHRA",
+        "CEYDA POLAT",
     ],
     "A2": [
-        "CEYDA POLAT",
         "AYNUR GÜLER",
         "YENİLMEZ",
         "KUNDAKÇI",
         "ERMAN",
         "DERYAM",
         "KAYDIHAN",
-        "GENCER",
-
+        "BAŞÇAVUŞ",
     ],
     "A3": [
         "CADDE SAĞLIK",
@@ -64,15 +63,45 @@ A_GROUPS: dict[str, list[str]] = {
         "TÜFEKÇİOĞLU",
         "ÖZGÜN KIYAT",
         "ALTINOVA",
-        "BAŞÇAVUŞ",
-        "SAHRA",
+    ],
+
+    "B1": [
+        "ÇİFTÇİ",
+        "ÖZSOY",
+        "DEMİR",
+        "BERGAMA",
+        "SEMİH",
+        "UĞUR",
+        "FLORYA",
+        "ÇAKMAK",
+    ],
+    "B2": [
+        "KAPLAN",
+        "NÜKHET",
+        "HACETTEPE",
+        "ADALET",
+        "ÖZGEN",
+        "GÜLRİZ",
+        "HAZAR",
+        "TURAN",
+        "KÖKNAR",
+    ],
+    "B3": [
+        "PAMUKKALE AKTÜRK",
+        "EKİZ",
+        "NİLGÜN",
+        "PAPATYA",
+        "CANSU",
     ],
 }
 
-A_GROUP_COLORS = {
+GROUP_COLORS = {
     "A1": "#4A148C",
     "A2": "#7B1FA2",
     "A3": "#AB47BC",
+    "B1": "#0D47A1",
+    "B2": "#1976D2",
+    "B3": "#64B5F6",
 }
 
 OTHER_COLOR = "#90A4AE"
@@ -367,19 +396,19 @@ def add_display_coordinates(
 
 
 # ============================================================
-# A GRUBU EŞLEME
+# A + B GRUBU EŞLEME
 # ============================================================
 
-def build_a_group_map() -> dict[str, str]:
+def build_group_map() -> dict[str, str]:
     result: dict[str, str] = {}
 
-    for group_name, names in A_GROUPS.items():
+    for group_name, names in GROUPS.items():
         for name in names:
             key = normalize_name(name)
 
             if key in result and result[key] != group_name:
                 raise ValueError(
-                    f"{name} birden fazla A alt grubunda tanımlanmış: "
+                    f"{name} birden fazla alt grupta tanımlanmış: "
                     f"{result[key]} ve {group_name}"
                 )
 
@@ -429,15 +458,15 @@ def minimum_spanning_edges(
 
 
 # ============================================================
-# SADECE A1 / A2 / A3 BAĞLANTI ÇİZGİLERİ
+# A1-A3 ve B1-B3 BAĞLANTI ÇİZGİLERİ
 # ============================================================
 
-def add_a_group_lines(
+def add_group_lines(
     map_obj: folium.Map,
     df: pd.DataFrame,
 ) -> None:
 
-    for group_name in ("A1", "A2", "A3"):
+    for group_name in ("A1", "A2", "A3", "B1", "B2", "B3"):
 
         subset = (
             df.loc[
@@ -486,7 +515,7 @@ def add_a_group_lines(
                     draw_points[i],
                     draw_points[j],
                 ],
-                color=A_GROUP_COLORS[group_name],
+                color=GROUP_COLORS[group_name],
                 weight=2.8,
                 opacity=0.90,
                 dash_array="7 6",
@@ -512,7 +541,7 @@ def add_markers(
 
     # A1 / A2 / A3 ayrı renklerle,
     # diğer tüm eczaneler tek nötr renkle gösterilir.
-    render_groups = ["A1", "A2", "A3", "DİĞER"]
+    render_groups = ["A1", "A2", "A3", "B1", "B2", "B3", "DİĞER"]
 
     for group_name in render_groups:
 
@@ -522,7 +551,7 @@ def add_markers(
             layer_name = "Diğer eczaneler"
         else:
             subset = df.loc[df["Grup"].eq(group_name)]
-            color = A_GROUP_COLORS[group_name]
+            color = GROUP_COLORS[group_name]
             layer_name = f"{group_name} eczaneleri"
 
         if subset.empty:
@@ -1087,7 +1116,7 @@ def build_map(
     ).add_to(m)
 
     # Önce A1/A2/A3 bağlantı çizgileri, sonra markerlar.
-    add_a_group_lines(
+    add_group_lines(
         m,
         df,
     )
@@ -1170,11 +1199,11 @@ try:
     # SADECE A GRUBU EŞLEŞTİR
     # --------------------------------------------------------
 
-    a_group_map = build_a_group_map()
+    group_map = build_group_map()
 
     pharmacies["Grup"] = (
         pharmacies["Anahtar"]
-        .map(a_group_map)
+        .map(group_map)
         .fillna("DİĞER")
     )
 
@@ -1193,7 +1222,7 @@ try:
         len(pharmacies),
     )
 
-    for group_name in ("A1", "A2", "A3"):
+    for group_name in ("A1", "A2", "A3", "B1", "B2", "B3"):
         st.sidebar.metric(
             group_name,
             int(pharmacies["Grup"].eq(group_name).sum()),
@@ -1205,7 +1234,7 @@ try:
     )
 
     st.sidebar.caption(
-        "Şimdilik yalnızca A1, A2 ve A3 aktif gruplandırılmıştır. "
+        "Şimdilik yalnızca A ve B ana grupları aktif gruplandırılmıştır. "
         "Diğer eczaneler düz/nötr nokta olarak gösterilir."
     )
 
@@ -1214,11 +1243,11 @@ try:
     # --------------------------------------------------------
 
     st.title(
-        "Denizli Eczane Haritası — Grup A"
+        "Denizli Eczane Haritası — Grup A + B"
     )
 
     st.caption(
-        "A1, A2 ve A3 kendi içlerinde kesikli çizgilerle bağlanır · "
+        "A1-A3 ve B1-B3 kendi içlerinde kesikli çizgilerle bağlanır · "
         "diğer eczaneler şimdilik düz/nötr nokta olarak kalır · "
         "kırmızı yoğunluk çemberi tüm eczaneleri sayar"
     )
