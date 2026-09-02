@@ -30,8 +30,8 @@ ECZANE_FILE_NAME = "denizli_eczaneler.xlsx"
 
 
 # ============================================================
-# ŞİMDİLİK GRUP A + B + C + K AKTİF
-# A1-A3, B1-B3, C1-C3 ve K1-K3 kendi içinde bağlanır.
+# ŞİMDİLİK GRUP A + B + C + K + G AKTİF
+# A1-A3, B1-B3, C1-C3, K1-K3 ve G1-G3 kendi içinde bağlanır.
 # Diğer tüm eczaneler "DİĞER" olarak düz gösterilir.
 # ============================================================
 
@@ -116,7 +116,7 @@ GROUPS: dict[str, list[str]] = {
         "GÜLERYÜZ",
         "AYFER CEYLAN",
           "ASLI",
-          "HASİBE KARTOĞLAN",
+ 
 
     ],
     "C3": [
@@ -147,7 +147,6 @@ GROUPS: dict[str, list[str]] = {
         "CANDENİZ",
         "ASMALI",
         "İNANÖZ",
-        
     ],
     "K3": [
         "SU",
@@ -157,6 +156,35 @@ GROUPS: dict[str, list[str]] = {
         "EZGİ KIRDI",
         "ZEYTİNKÖY SEMA",
         "GÜRSOY",
+    ],
+
+    "G1": [
+        "ELVAN",
+        "KABAYUKA",
+        "ALPLER",
+        "BİLGE",
+        "YEŞİLYUVA",
+        "AYDIN",
+        "ERSAN",
+        "ÇETİN",
+    ],
+    "G2": [
+        "ZEYNEP SULTAN",
+        "GÖKKUŞAĞI",
+        "ELİF PAMUKÇU",
+        "FORUM ÇAMLIK",
+        "CEYLAN",
+        "ŞİRİN",
+        "ELİF İN",
+    ],
+    "G3": [
+        "KINIKLI",
+        "MUTLU GÜNLER",
+        "ÇAMLICA",
+        "OKYANUS",
+        "SARAÇOĞLU",
+        "ÇAMLIK",
+        "GÖRKEM",
     ],
 }
 
@@ -173,6 +201,9 @@ GROUP_COLORS = {
     "K1": "#E65100",
     "K2": "#F57C00",
     "K3": "#FFB74D",
+    "G1": "#00695C",
+    "G2": "#00897B",
+    "G3": "#4DB6AC",
 }
 
 OTHER_COLOR = "#90A4AE"
@@ -467,7 +498,7 @@ def add_display_coordinates(
 
 
 # ============================================================
-# A + B + C + K GRUBU EŞLEME
+# A + B + C + K + G GRUBU EŞLEME
 # ============================================================
 
 def build_group_map() -> dict[str, str]:
@@ -529,7 +560,7 @@ def minimum_spanning_edges(
 
 
 # ============================================================
-# A1-A3 / B1-B3 / C1-C3 / K1-K3 BAĞLANTI ÇİZGİLERİ
+# A1-A3 / B1-B3 / C1-C3 / K1-K3 / G1-G3 BAĞLANTI ÇİZGİLERİ
 # ============================================================
 
 def add_group_lines(
@@ -537,7 +568,7 @@ def add_group_lines(
     df: pd.DataFrame,
 ) -> None:
 
-    for group_name in ("A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3", "K1", "K2", "K3"):
+    for group_name in ("A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3", "K1", "K2", "K3", "G1", "G2", "G3"):
 
         subset = (
             df.loc[
@@ -612,7 +643,7 @@ def add_markers(
 
     # A1 / A2 / A3 ayrı renklerle,
     # diğer tüm eczaneler tek nötr renkle gösterilir.
-    render_groups = ["A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3", "K1", "K2", "K3", "DİĞER"]
+    render_groups = ["A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3", "K1", "K2", "K3", "G1", "G2", "G3", "DİĞER"]
 
     for group_name in render_groups:
 
@@ -1186,7 +1217,7 @@ def build_map(
         show=False,
     ).add_to(m)
 
-    # Önce A1-A3 / B1-B3 / C1-C3 / K1-K3 bağlantı çizgileri, sonra markerlar.
+    # Önce A1-A3 / B1-B3 / C1-C3 / K1-K3 / G1-G3 bağlantı çizgileri, sonra markerlar.
     add_group_lines(
         m,
         df,
@@ -1267,7 +1298,7 @@ try:
     )
 
     # --------------------------------------------------------
-    # A + B + C + K GRUPLARINI EŞLEŞTİR
+    # A + B + C + K + G GRUPLARINI EŞLEŞTİR
     # --------------------------------------------------------
 
     group_map = build_group_map()
@@ -1293,7 +1324,7 @@ try:
         len(pharmacies),
     )
 
-    for group_name in ("A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3", "K1", "K2", "K3"):
+    for group_name in ("A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3", "K1", "K2", "K3", "G1", "G2", "G3"):
         st.sidebar.metric(
             group_name,
             int(pharmacies["Grup"].eq(group_name).sum()),
@@ -1305,7 +1336,7 @@ try:
     )
 
     st.sidebar.caption(
-        "Şimdilik A1-A3, B1-B3, C1-C3 ve K1-K3 aktif gruplandırılmıştır. "
+        "Şimdilik A1-A3, B1-B3, C1-C3, K1-K3 ve G1-G3 aktif gruplandırılmıştır. "
         "Diğer eczaneler düz/nötr nokta olarak gösterilir."
     )
 
@@ -1314,11 +1345,11 @@ try:
     # --------------------------------------------------------
 
     st.title(
-        "Denizli Eczane Haritası — Grup A + B + C + K"
+        "Denizli Eczane Haritası — Grup A + B + C + K + G"
     )
 
     st.caption(
-        "A1-A3, B1-B3, C1-C3 ve K1-K3 kendi içlerinde kesikli çizgilerle bağlanır · "
+        "A1-A3, B1-B3, C1-C3, K1-K3 ve G1-G3 kendi içlerinde kesikli çizgilerle bağlanır · "
         "diğer eczaneler şimdilik düz/nötr nokta olarak kalır · "
         "kırmızı yoğunluk çemberi tüm eczaneleri sayar"
     )
