@@ -146,6 +146,8 @@ GROUPS: dict[str, list[str]] = {
         "KAYHAN",
         "CANDENİZ",
         "ASMALI",
+        "İNANÖZ",
+        
     ],
     "K3": [
         "SU",
