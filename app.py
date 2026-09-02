@@ -186,6 +186,37 @@ GROUPS: dict[str, list[str]] = {
         "ÇAMLIK",
         "GÖRKEM",
     ],
+
+    "G1": [
+        "FATİH",
+        "FATIMA ŞENTÜRK",
+        "GÜRKAN",
+        "DİŞÇİOĞLU",
+        "DİNÇ",
+        "NEFES",
+        "BAHAR",
+        "EZGİ",
+    ],
+    "G2": [
+        "MERVCE",
+        "ÖZCEL",
+        "CANSU ERKİLET",
+        "NAZAN",
+        "TOLGAY",
+        "AKYAKA",
+        "SEVİM",
+    ],
+    "G3": [
+        "EVREN",
+        "EMEK",
+        "TUGAY",
+        "PARK BOTANİK",
+        "SERVET",
+        "KÖSELER",
+        "AYLİN",
+        "İSTİKLAL",
+        "HÜRRİYET",
+    ],
 }
 
 GROUP_COLORS = {
