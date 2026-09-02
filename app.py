@@ -233,6 +233,7 @@ GROUPS: dict[str, list[str]] = {
         "ELİF",
         "NEŞE",
         "SEÇKİN",
+        "CEYHAN",
     ],
     "F2": [
         "ZEYNEP",
