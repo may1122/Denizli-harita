@@ -1348,18 +1348,12 @@ def build_map(
         prefer_canvas=False,
     )
 
-    folium.TileLayer(
-        tiles="CartoDB positron",
-        name="Sade harita",
-        control=True,
-        show=True,
-    ).add_to(m)
-
+    # API key istemeyen OpenStreetMap taban haritası
     folium.TileLayer(
         tiles="OpenStreetMap",
-        name="Detaylı harita",
+        name="Harita",
         control=True,
-        show=False,
+        show=True,
     ).add_to(m)
 
     # Önce A1-A3 / B1-B3 / C1-C3 / K1-K3 / G1-G3 / F1-F3 / D1-D3 / E1-E3 bağlantı çizgileri, sonra markerlar.
