@@ -248,9 +248,14 @@ GROUPS: dict[str, list[str]] = {
     ],
     "F3": [
 
-        "TEMMUZ",
-        "İNCEOĞLU",
-        "OCAK",
+        "KOÇAK",
+        "BÜŞRA BOYACI",
+        "SEMT",
+        "GAMZE",
+        "MAVİ",
+        "DEMİRTAŞ",
+        "BAŞDİL",
+        "MİRA",
     ],
 }
 
