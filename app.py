@@ -30,7 +30,7 @@ ECZANE_FILE_NAME = "denizli_eczaneler.xlsx"
 
 
 # ============================================================
-# ŞİMDİLİK SADECE GRUP A VE B AKTİF
+# ŞİMDİLİK GRUP A + B AKTİF
 # A1-A3 ve B1-B3 kendi içinde bağlanır.
 # Diğer tüm eczaneler "DİĞER" olarak düz gösterilir.
 # ============================================================
@@ -40,21 +40,20 @@ GROUPS: dict[str, list[str]] = {
         "KEKİK",
         "ALBAYRAK",
         "CEREN FİLİZER",
-        "GENCER",
+        "CAN SUYU",
         "IRMAK",
         "OZAN",
         "ÖZGÜ",
-        "SAHRA",
-        "CEYDA POLAT",
     ],
     "A2": [
+        "CEYDA POLAT",
         "AYNUR GÜLER",
         "YENİLMEZ",
         "KUNDAKÇI",
         "ERMAN",
         "DERYAM",
         "KAYDIHAN",
-        "BAŞÇAVUŞ",
+        "GENCER",
     ],
     "A3": [
         "CADDE SAĞLIK",
@@ -63,6 +62,8 @@ GROUPS: dict[str, list[str]] = {
         "TÜFEKÇİOĞLU",
         "ÖZGÜN KIYAT",
         "ALTINOVA",
+        "BAŞÇAVUŞ",
+        "SAHRA",
     ],
 
     "B1": [
@@ -458,7 +459,7 @@ def minimum_spanning_edges(
 
 
 # ============================================================
-# A1-A3 ve B1-B3 BAĞLANTI ÇİZGİLERİ
+# A1-A3 / B1-B3 BAĞLANTI ÇİZGİLERİ
 # ============================================================
 
 def add_group_lines(
@@ -1115,7 +1116,7 @@ def build_map(
         show=False,
     ).add_to(m)
 
-    # Önce A1/A2/A3 bağlantı çizgileri, sonra markerlar.
+    # Önce A1-A3 / B1-B3 bağlantı çizgileri, sonra markerlar.
     add_group_lines(
         m,
         df,
@@ -1196,7 +1197,7 @@ try:
     )
 
     # --------------------------------------------------------
-    # SADECE A GRUBU EŞLEŞTİR
+    # A + B GRUPLARINI EŞLEŞTİR
     # --------------------------------------------------------
 
     group_map = build_group_map()
@@ -1234,7 +1235,7 @@ try:
     )
 
     st.sidebar.caption(
-        "Şimdilik yalnızca A ve B ana grupları aktif gruplandırılmıştır. "
+        "Şimdilik A1-A3 ve B1-B3 aktif gruplandırılmıştır. "
         "Diğer eczaneler düz/nötr nokta olarak gösterilir."
     )
 
