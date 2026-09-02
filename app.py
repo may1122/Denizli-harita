@@ -206,19 +206,21 @@ GROUPS: dict[str, list[str]] = {
         "TOLGAY",
         "AKKAYA",
         "SEVİM",
-        "MERVE",
-    ],
-    "K3": [
         "EVREN",
         "EMEK",
         "TUGAY",
         "PARK BOTANİK",
+   
+    ],
+    "K3": [
+
         "SERVET",
         "KÖSELER",
         "AYLİN",
         "İSTİKLAL",
         "HÜRRİYET",
         "ÖZKAN",
+        "MERVE",
     ],
 }
 
