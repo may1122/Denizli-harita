@@ -20,7 +20,7 @@ from branca.element import MacroElement, Template
 # ============================================================
 
 st.set_page_config(
-    page_title="Denizli Eczane Grup Haritası",
+    page_title="Denizli Eczane Haritası",
     page_icon="💊",
     layout="wide",
 )
@@ -30,339 +30,14 @@ ECZANE_FILE_NAME = "denizli_eczaneler.xlsx"
 
 
 # ============================================================
-# GRUP RENKLERİ
-# ============================================================
-
-GROUP_COLORS = {
-    "A1": "#4A148C",
-    "A2": "#7B1FA2",
-    "A3": "#AB47BC",
-    "B1": "#0D47A1",
-    "B2": "#1976D2",
-    "B3": "#64B5F6",
-    "C1": "#00695C",
-    "C2": "#00897B",
-    "C3": "#4DB6AC",
-    "D1": "#E65100",
-    "D2": "#EF6C00",
-    "D3": "#FFB74D",
-    "E1": "#1B5E20",
-    "E2": "#388E3C",
-    "E3": "#81C784",
-    "F1": "#B71C1C",
-    "F2": "#D32F2F",
-    "F3": "#EF5350",
-    "G1": "#4A148C",
-    "G2": "#8E24AA",
-    "G3": "#CE93D8",
-    "H1": "#01579B",
-    "H2": "#039BE5",
-    "H3": "#81D4FA",
-    "K1": "#F57F17",
-    "K2": "#F9A825",
-    "K3": "#FFD54F",
-}
-
-
-# ============================================================
-# DENİZLİ 9 ANA GRUP / 27 ALT GRUP
-# ============================================================
-
-GROUPS: dict[str, list[str]] = {
-    "A1": [
-        'AYNUR GÜLER',
-        'BAŞÇAVUŞ',
-        'CEYDA POLAT',
-        'DERYAM',
-        'KAYDIHAN',
-        'YENİLMEZ',
-        'KUNDAKÇI',
-        'GENCER',
-        'ERMAN',
-    ],
-    "A2": [
-        'BAKLAN',
-        'NEVA',
-        'AYŞEN',
-        'ZEYNEP',
-        'ÇALLIOĞLU',
-        'DİLEK',
-        'DELİKTAŞ',
-        'DOKUZKAVAKLAR',
-    ],
-    "A3": [
-        'SEMT',
-        'GAMZE',
-        'MAVİ',
-        'MİRA',
-        'KOÇAK',
-        'BÜŞRA BOYACI',
-        'BAŞDİL',
-        'DEMİRTAŞ',
-    ],
-
-    "B1": [
-        'AKDENİZ',
-        'CANDENİZ',
-        'KAYHAN',
-        'SEMİH',
-        'UĞUR',
-        'ÖZGEN',
-        'EMİR',
-    ],
-    "B2": [
-        'HAZAR',
-        'KAPLAN',
-        'FLORYA',
-        'TURAN',
-        'NÜKHET',
-        'GÜLRİZ',
-        'HACETTEPE',
-        'ADALET',
-    ],
-    "B3": [
-        'KÖKNAR',
-        'ÇAKMAK',
-        'ÇİFTÇİ',
-        'ÖZSOY',
-        'DEMİR',
-        'NİLGÜN',
-        'PAPATYA',
-        'CANSU',
-    ],
-
-    "C1": [
-        'ÖZDERMAN',
-        'ŞİFA',
-        'BÜYÜK',
-        'SAĞLIK',
-        'DUYGU',
-        'ERCAN',
-        'ERDEM',
-        'DENİZLİ',
-        'FATİH',
-    ],
-    "C2": [
-        'AYKUT',
-        'ESİN',
-        'BAYRAMYERİ',
-        'SERGEN',
-        'DAĞDEVİREN',
-        'EGE',
-        'ŞULE',
-        'ANAFARTALAR',
-    ],
-    "C3": [
-        'DİŞÇİOĞLU',
-        'MERVE',
-        'MERKEZ',
-        'PELİTLİBAĞ',
-        'FATIMA ŞENTÜRK',
-        'ÇETİNKAYA',
-        'GÜRKAN',
-        'ASMALI',
-    ],
-
-    "D1": [
-        'ARCA',
-        'MORALIOĞLU',
-        'GÜLAY',
-        'IŞIL',
-        'ÇAKMAKLIOĞLU',
-        'ADALI',
-        'LİMONCU',
-        'BAYRAMOĞLU',
-        'LOKMAN',
-    ],
-    "D2": [
-        'CANAN',
-        'GÖKSU',
-        'DEMİRAY',
-        'EFE',
-        'VERESELİ DENİZLİ',
-        'CADDE',
-        'BURCU',
-        'GÜLEÇ',
-        'GÜNGÖR',
-    ],
-    "D3": [
-        'ÇOMUT',
-        'AYGÖREN',
-        'EZO',
-        'GÖKHAN',
-        'KIVILCIM',
-        'NUR BAŞÇAVUŞ',
-        'CEYHAN',
-        'ÖZNUR',
-    ],
-
-    "E1": [
-        'TURUNÇ',
-        'HASİBE KARTOĞLAN',
-        'ASLI',
-        'KİRAZ',
-        '29_EKİM',
-        'ADA',
-        'UZMAN',
-        'DENİZİM',
-    ],
-    "E2": [
-        'AYFER CEYLAN',
-        'GÜLERYÜZ',
-        'ÜMİT',
-        'ERTUĞRUL',
-        'SENA KELLECİ',
-        'UMAY',
-        'AKTÜRK',
-        'GÖZDE GÜNDÜZ',
-    ],
-    "E3": [
-        'ÖZCEL',
-        'SEVİM',
-        'İLKE',
-        'OCAK',
-        'TOLGAY',
-        'AKKAYA',
-        'DİNÇ',
-        'EZGİ',
-    ],
-
-    "F1": [
-        'ELİF PAMUKÇU',
-        'OKYANUS',
-        'KINIKLI',
-        'SARAÇOĞLU',
-        'MUTLU GÜNLER',
-        'ÇAMLICA',
-        'AYDIN',
-        'ERSAN',
-    ],
-    "F2": [
-        'SEDA BAŞDİL',
-        'MERKEZEFENDİ',
-        'TURKUAZ',
-        'YEŞİLYURT',
-        'MEHMET KAYA',
-        'NİSAN',
-        'ALBAYRAK',
-        'SAHRA',
-    ],
-    "F3": [
-        'NEFES',
-        'BAHAR',
-        'ASLAN',
-        'İSTİKLAL',
-        'AYLİN',
-        'ÇETİN',
-        'ÖZKAN',
-        'KÖSELER',
-        'HÜRRİYET',
-    ],
-
-    "G1": [
-        'CEMRE',
-        'EKİZ',
-        'SİNEM',
-        'IŞIMLIK',
-        'PAMUKKALE AKTÜRK',
-        'ÖZGÜR',
-        'EVREN',
-    ],
-    "G2": [
-        'ELVAN',
-        'ZEYNEP SULTAN',
-        'ALPLER',
-        'FORUM ÇAMLIK',
-        'BİLGE',
-        'KABAYUKA',
-        'GÖKKUŞAĞI',
-    ],
-    "G3": [
-        'ELİF',
-        'NEŞE',
-        'SEVİL',
-        'SEÇKİN',
-        'TEMMUZ',
-        'İNCEOĞLU',
-        'ANIL',
-        'DOĞAL',
-    ],
-
-    "H1": [
-        'BERGAMA',
-        'KEKİK',
-        'CEREN FİLİZER',
-        'DEMİRCİOĞLU GÜL',
-        'GÖKÇE',
-        'ALSANCAK',
-        'MERVE YAMUÇ',
-    ],
-    "H2": [
-        'ÜNİVERSİTE',
-        'CANDAN',
-        'SAYGIN',
-        'SOYLU',
-        'İNANÖZ',
-        'KIZILTAŞ',
-        'PAMUKKALE',
-        'DEMİROĞLU',
-    ],
-    "H3": [
-        'SU',
-        'TUBA',
-        'ZEYTİNKÖY SEMA',
-        'EZGİ KIRDI',
-        'DERMAN',
-        'DEVECİ',
-        'GÜRSOY',
-    ],
-
-    "K1": [
-        'ÖZGÜ',
-        'IRMAK',
-        'CANSUYU',
-        'OZAN',
-        'CADDE SAĞLIK',
-        'GÜNEŞ',
-        'İZMİRLİ',
-    ],
-    "K2": [
-        'PARK BOTANİK',
-        'SERVET',
-        'YEŞİLYUVA',
-        'GÖRKEM',
-        'ÇAMLIK',
-        'ELİF İN',
-        'ŞİRİN',
-        'CEYLAN',
-    ],
-    "K3": [
-        'ÖZGÜN KIYAT',
-        'ALTINOVA',
-        'TÜFEKÇİOĞLU',
-        'NAZAN',
-        'TUGAY',
-        'EMEK',
-        'CANSU ERKİLET',
-    ],
-}
-
-ALL_GROUPS = list(GROUPS.keys())
-
-
-# ============================================================
 # ECZANE İSMİ NORMALİZASYONU
 # ============================================================
 
 def normalize_name(value: object) -> str:
-
     if pd.isna(value):
         return ""
 
-    text = unicodedata.normalize(
-        "NFKC",
-        str(value)
-    ).strip().upper()
+    text = unicodedata.normalize("NFKC", str(value)).strip().upper()
 
     text = text.translate(
         str.maketrans(
@@ -377,13 +52,9 @@ def normalize_name(value: object) -> str:
         )
     )
 
-    # boşlukları kaldır
     text = re.sub(r"\s+", "", text)
-
-    # özel karakterleri kaldır
     text = re.sub(r"[^0-9A-Z]", "", text)
 
-    # "ECZANESI" son ekini kaldır
     if text.endswith("ECZANESI"):
         text = text[:-8]
 
@@ -391,49 +62,19 @@ def normalize_name(value: object) -> str:
 
 
 # ============================================================
-# GRUP HARİTASI
-# ============================================================
-
-def build_group_map() -> dict[str, str]:
-
-    result: dict[str, str] = {}
-
-    for group_name, names in GROUPS.items():
-
-        for name in names:
-
-            key = normalize_name(name)
-
-            if key in result and result[key] != group_name:
-                raise ValueError(
-                    f"{name} birden fazla grupta tanımlanmış: "
-                    f"{result[key]} ve {group_name}"
-                )
-
-            result[key] = group_name
-
-    return result
-
-
-# ============================================================
 # KOORDİNAT OKUMA
 # ============================================================
 
 def parse_coord(value: object) -> float | None:
-
     if pd.isna(value):
         return None
 
     try:
         v = float(value)
-
     except Exception:
-
         txt = str(value).strip().replace(",", ".")
-
         try:
             v = float(txt)
-
         except Exception:
             return None
 
@@ -456,7 +97,6 @@ def read_pharmacies(
     file_version: int,
 ) -> pd.DataFrame:
 
-    # Excel değiştiğinde Streamlit cache yenilensin
     del file_version
 
     raw = pd.read_excel(
@@ -478,8 +118,7 @@ def read_pharmacies(
 
     if missing:
         raise ValueError(
-            "Eksik sütun(lar): "
-            + ", ".join(missing)
+            "Eksik sütun(lar): " + ", ".join(missing)
         )
 
     if "Eczane Adresi" in raw.columns:
@@ -503,14 +142,11 @@ def read_pharmacies(
                 .astype(str)
                 .str.strip()
             ),
-
             "Adres": address_column,
-
             "Latitude": (
                 raw["Enlem (Latitude)"]
                 .map(parse_coord)
             ),
-
             "Longitude": (
                 raw["Boylam (Longitude)"]
                 .map(parse_coord)
@@ -520,7 +156,6 @@ def read_pharmacies(
 
     df["Anahtar"] = df["Eczane"].map(normalize_name)
 
-    # Koordinatı olmayanları çıkar
     df = df.dropna(
         subset=[
             "Latitude",
@@ -528,13 +163,11 @@ def read_pharmacies(
         ]
     )
 
-    # Geçerli koordinat kontrolü
     df = df[
         df["Latitude"].between(-90, 90)
         & df["Longitude"].between(-180, 180)
     ]
 
-    # Aynı eczanenin yazım varyantlarını tekilleştir
     df = (
         df.drop_duplicates(
             subset=["Anahtar"],
@@ -555,15 +188,8 @@ def latlon_distance_m(
     b: tuple[float, float],
 ) -> float:
 
-    lat1, lon1 = map(
-        math.radians,
-        a,
-    )
-
-    lat2, lon2 = map(
-        math.radians,
-        b,
-    )
+    lat1, lon1 = map(math.radians, a)
+    lat2, lon2 = map(math.radians, b)
 
     dlat = lat2 - lat1
     dlon = lon2 - lon1
@@ -583,73 +209,8 @@ def latlon_distance_m(
 
 
 # ============================================================
-# MINIMUM SPANNING TREE
-# Aynı grubun eczanelerini gereksiz karmaşa oluşturmadan bağlar
-# ============================================================
-
-def minimum_spanning_edges(
-    points: list[tuple[float, float]],
-) -> list[tuple[int, int]]:
-
-    if len(points) < 2:
-        return []
-
-    used = {0}
-
-    edges: list[
-        tuple[int, int]
-    ] = []
-
-    while len(used) < len(points):
-
-        best: tuple[
-            float,
-            int,
-            int,
-        ] | None = None
-
-        for i in used:
-
-            for j in range(len(points)):
-
-                if j in used:
-                    continue
-
-                distance = latlon_distance_m(
-                    points[i],
-                    points[j],
-                )
-
-                if (
-                    best is None
-                    or distance < best[0]
-                ):
-                    best = (
-                        distance,
-                        i,
-                        j,
-                    )
-
-        assert best is not None
-
-        _, i, j = best
-
-        edges.append(
-            (i, j)
-        )
-
-        used.add(j)
-
-    return edges
-
-
-
-
-# ============================================================
-# GÖRSEL KOORDİNAT AYRIŞTIRMA
-# Aynı / neredeyse aynı koordinattaki eczaneleri ekranda ayırır.
-# ÖNEMLİ: Latitude / Longitude gerçek koordinat olarak korunur.
-# Yoğunluk çemberi ve mesafe hesabı GERÇEK koordinatları kullanır.
+# ÜST ÜSTE BİNEN NOKTALARI GÖRSEL OLARAK AYIR
+# Gerçek koordinatlar değişmez.
 # ============================================================
 
 def add_display_coordinates(
@@ -657,24 +218,15 @@ def add_display_coordinates(
     overlap_threshold_m: float = 3.0,
     spread_radius_m: float = 8.0,
 ) -> pd.DataFrame:
-    """
-    Birbirine çok yakın (varsayılan <= 3 m) eczaneleri yalnızca görsel
-    olarak küçük bir halka üzerine dağıtır. Gerçek koordinatlar değişmez.
-
-    Böylece:
-    - 1 eczane = 1 görünür nokta,
-    - üst üste binen markerlar kaybolmaz,
-    - yoğunluk çemberi gerçek konumdan hesap yapmaya devam eder.
-    """
 
     work = df.copy().reset_index(drop=True)
+
     work["DisplayLatitude"] = work["Latitude"].astype(float)
     work["DisplayLongitude"] = work["Longitude"].astype(float)
 
     if len(work) < 2:
         return work
 
-    # Yakın noktaları bağlı bileşen mantığıyla kümelendir.
     unvisited = set(range(len(work)))
     clusters: list[list[int]] = []
 
@@ -685,17 +237,20 @@ def add_display_coordinates(
 
         while queue:
             i = queue.pop()
+
             a = (
                 float(work.at[i, "Latitude"]),
                 float(work.at[i, "Longitude"]),
             )
 
             nearby = []
+
             for j in list(unvisited):
                 b = (
                     float(work.at[j, "Latitude"]),
                     float(work.at[j, "Longitude"]),
                 )
+
                 if latlon_distance_m(a, b) <= overlap_threshold_m:
                     nearby.append(j)
 
@@ -710,259 +265,126 @@ def add_display_coordinates(
         if len(cluster) <= 1:
             continue
 
-        center_lat = sum(float(work.at[i, "Latitude"]) for i in cluster) / len(cluster)
-        center_lon = sum(float(work.at[i, "Longitude"]) for i in cluster) / len(cluster)
+        center_lat = (
+            sum(float(work.at[i, "Latitude"]) for i in cluster)
+            / len(cluster)
+        )
 
-        # Enlem / boylam derece dönüşümü (küçük mesafeler için yeterince hassas).
+        center_lon = (
+            sum(float(work.at[i, "Longitude"]) for i in cluster)
+            / len(cluster)
+        )
+
         lat_deg_per_m = 1.0 / 111_320.0
-        cos_lat = max(0.2, math.cos(math.radians(center_lat)))
-        lon_deg_per_m = 1.0 / (111_320.0 * cos_lat)
 
-        # Nokta sayısı arttıkça halkayı çok az büyüt.
-        radius_m = spread_radius_m + max(0, len(cluster) - 2) * 1.25
+        cos_lat = max(
+            0.2,
+            math.cos(math.radians(center_lat)),
+        )
+
+        lon_deg_per_m = (
+            1.0
+            / (111_320.0 * cos_lat)
+        )
+
+        radius_m = (
+            spread_radius_m
+            + max(0, len(cluster) - 2) * 1.25
+        )
 
         for pos, idx in enumerate(cluster):
-            angle = (2.0 * math.pi * pos / len(cluster)) - (math.pi / 2.0)
+            angle = (
+                2.0
+                * math.pi
+                * pos
+                / len(cluster)
+            ) - (math.pi / 2.0)
+
             north_m = math.cos(angle) * radius_m
             east_m = math.sin(angle) * radius_m
 
-            work.at[idx, "DisplayLatitude"] = center_lat + north_m * lat_deg_per_m
-            work.at[idx, "DisplayLongitude"] = center_lon + east_m * lon_deg_per_m
+            work.at[idx, "DisplayLatitude"] = (
+                center_lat
+                + north_m * lat_deg_per_m
+            )
+
+            work.at[idx, "DisplayLongitude"] = (
+                center_lon
+                + east_m * lon_deg_per_m
+            )
 
     return work
 
 
 # ============================================================
-# GRUP BAĞLANTI ÇİZGİLERİ
-# ============================================================
-
-def add_group_lines(
-    map_obj: folium.Map,
-    df: pd.DataFrame,
-    selected_groups: set[str],
-) -> None:
-    """
-    Bağlantıları HER HARİTA OLUŞUMUNDA doğrudan güncel GROUPS
-    tanımından yeniden kurar.
-
-    Böylece bir eczane bir gruptan başka bir gruba taşındığında:
-    - eski grubun çizgi ağı o eczaneyi kesinlikle kullanmaz,
-    - yeni grubun çizgi ağı eczaneyi dahil ederek baştan hesaplanır.
-
-    df["Grup"] sütununa güvenmek yerine GROUPS içindeki güncel isimleri
-    normalize edip doğrudan eşleştiriyoruz. Bu, eski grup bilgisinin çizgide
-    kalması ihtimalini ortadan kaldırır.
-    """
-
-    # DataFrame'deki her eczanenin güncel anahtarını garanti altına al.
-    work_df = df.copy()
-    if "Anahtar" not in work_df.columns:
-        work_df["Anahtar"] = work_df["Eczane"].map(normalize_name)
-
-    for group_name in ALL_GROUPS:
-
-        if group_name not in selected_groups:
-            continue
-
-        # ----------------------------------------------------
-        # SADECE GÜNCEL GROUPS TANIMI GERÇEK KAYNAK
-        # ----------------------------------------------------
-        current_group_keys = {
-            normalize_name(name)
-            for name in GROUPS[group_name]
-        }
-
-        subset = (
-            work_df.loc[
-                work_df["Anahtar"].isin(current_group_keys),
-                [
-                    "Eczane",
-                    "Anahtar",
-                    "Latitude",
-                    "Longitude",
-                    "DisplayLatitude",
-                    "DisplayLongitude",
-                ],
-            ]
-            .dropna(subset=["Latitude", "Longitude"])
-            .drop_duplicates(subset=["Anahtar"], keep="first")
-            .copy()
-            .reset_index(drop=True)
-        )
-
-        if len(subset) < 2:
-            continue
-
-        color = GROUP_COLORS[group_name]
-
-        # MST hesabı GERÇEK koordinatlarla yapılır.
-        real_points = [
-            (
-                float(row.Latitude),
-                float(row.Longitude),
-            )
-            for row in subset.itertuples(index=False)
-        ]
-
-        # Çizim ise üst üste binmeleri ayıran GÖRSEL koordinatlarla yapılır.
-        draw_points = [
-            (
-                float(row.DisplayLatitude),
-                float(row.DisplayLongitude),
-            )
-            for row in subset.itertuples(index=False)
-        ]
-
-        # MST her seferinde sadece güncel grup üyeleriyle sıfırdan hesaplanır.
-        edges = minimum_spanning_edges(real_points)
-
-        line_layer = FeatureGroup(
-            name=f"{group_name} bağlantıları",
-            show=True,
-        )
-
-        for i, j in edges:
-
-            row_i = subset.iloc[i]
-            row_j = subset.iloc[j]
-
-            key_i = str(row_i["Anahtar"])
-            key_j = str(row_j["Anahtar"])
-
-            # ------------------------------------------------
-            # SON GÜVENLİK KONTROLÜ
-            # Çizginin iki ucu da hâlâ bu grubun güncel üyesi
-            # değilse o çizgiyi ASLA çizme.
-            # ------------------------------------------------
-            if (
-                key_i not in current_group_keys
-                or key_j not in current_group_keys
-            ):
-                continue
-
-            pharmacy_1 = str(row_i["Eczane"])
-            pharmacy_2 = str(row_j["Eczane"])
-
-            folium.PolyLine(
-                locations=[
-                    draw_points[i],
-                    draw_points[j],
-                ],
-                color=color,
-                weight=2.4,
-                opacity=0.82,
-                dash_array="7 6",
-                line_cap="round",
-                line_join="round",
-                tooltip=(
-                    f"{group_name}: "
-                    f"{pharmacy_1} ↔ {pharmacy_2}"
-                ),
-            ).add_to(line_layer)
-
-        line_layer.add_to(map_obj)
-
-
-# ============================================================
-# ECZANE MARKERLARI
+# TÜM ECZANELERİ TEK TİP MARKERLA GÖSTER
 # ============================================================
 
 def add_markers(
     map_obj: folium.Map,
     df: pd.DataFrame,
-    selected_groups: set[str],
 ) -> None:
 
-    for group_name in ALL_GROUPS:
+    marker_layer = FeatureGroup(
+        name="Tüm eczaneler",
+        show=True,
+    )
 
-        if group_name not in selected_groups:
-            continue
+    for _, row in df.iterrows():
 
-        subset = df.loc[
-            df["Grup"].eq(group_name)
-        ]
-
-        if subset.empty:
-            continue
-
-        marker_layer = FeatureGroup(
-            name=f"{group_name} eczaneleri",
-            show=True,
+        pharmacy_name = html.escape(
+            str(row["Eczane"])
         )
 
-        color = GROUP_COLORS[group_name]
+        address = html.escape(
+            str(row["Adres"])
+        )
 
-        for _, row in subset.iterrows():
+        tooltip = (
+            '<div style="'
+            'font-size:13px;'
+            'line-height:1.35;'
+            '">'
+            f"<b>{pharmacy_name}</b>"
+        )
 
-            pharmacy_name = html.escape(
-                str(row["Eczane"])
-            )
-
-            address = html.escape(
-                str(row["Adres"])
-            )
-
-            tooltip = (
-                '<div style="'
-                'font-size:13px;'
-                'line-height:1.35;'
-                '">'
-                f"<b>{pharmacy_name}</b>"
+        if address:
+            tooltip += (
                 "<br>"
-                f"{html.escape(group_name)}"
+                '<span style="color:#666">'
+                f"{address}"
+                "</span>"
             )
 
-            if address:
-                tooltip += (
-                    '<br>'
-                    '<span style="color:#666">'
-                    f"{address}"
-                    "</span>"
-                )
+        tooltip += "</div>"
 
-            tooltip += "</div>"
+        folium.CircleMarker(
+            location=[
+                float(row["DisplayLatitude"]),
+                float(row["DisplayLongitude"]),
+            ],
+            radius=6.0,
+            color="#FFFFFF",
+            weight=1.6,
+            fill=True,
+            fill_color="#1565C0",
+            fill_opacity=0.96,
+            tooltip=folium.Tooltip(
+                tooltip,
+                sticky=True,
+                direction="top",
+            ),
+        ).add_to(marker_layer)
 
-            folium.CircleMarker(
-                location=[
-                    float(row["DisplayLatitude"]),
-                    float(row["DisplayLongitude"]),
-                ],
-
-                radius=6.0,
-
-                # marker dış çerçevesi
-                color="#FFFFFF",
-
-                weight=1.6,
-
-                fill=True,
-
-                fill_color=color,
-
-                fill_opacity=0.98,
-
-                tooltip=folium.Tooltip(
-                    tooltip,
-                    sticky=True,
-                    direction="top",
-                ),
-            ).add_to(
-                marker_layer
-            )
-
-        marker_layer.add_to(
-            map_obj
-        )
-
+    marker_layer.add_to(map_obj)
 
 
 # ============================================================
 # YOĞUNLUK ÇEMBERİ
-# Haritada kırmızı çemberi taşıyarak içindeki eczaneleri sayar
+# TÜM ECZANELERİ SAYAR
 # ============================================================
 
 class DensityCircleControl(MacroElement):
-    """Leaflet üzerinde sürüklenebilir kırmızı çember ve canlı eczane sayacı."""
 
     def __init__(
         self,
@@ -971,16 +393,21 @@ class DensityCircleControl(MacroElement):
         center_lon: float,
     ):
         super().__init__()
+
         self._name = "DensityCircleControl"
 
         import json
 
-        pharmacies_json = json.dumps(pharmacy_points, ensure_ascii=False)
+        pharmacies_json = json.dumps(
+            pharmacy_points,
+            ensure_ascii=False,
+        )
 
         self._template = Template(
             r"""
 {% macro script(this, kwargs) %}
 (function() {
+
     const map = {{ this._parent.get_name() }};
     const pharmacies = {{ this.pharmacies_json | safe }};
     const total = pharmacies.length;
@@ -1007,17 +434,25 @@ class DensityCircleControl(MacroElement):
         iconAnchor: [12, 12]
     });
 
-    const centerHandle = L.marker(startLatLng, {
-        draggable: true,
-        icon: centerIcon,
-        zIndexOffset: 2000,
-        title: 'Çember merkezini sürükle'
-    }).addTo(map);
+    const centerHandle = L.marker(
+        startLatLng,
+        {
+            draggable: true,
+            icon: centerIcon,
+            zIndexOffset: 2000,
+            title: 'Çember merkezini sürükle'
+        }
+    ).addTo(map);
+
 
     const DensityControl = L.Control.extend({
-        options: { position: 'topleft' },
+
+        options: {
+            position: 'topleft'
+        },
 
         onAdd: function() {
+
             const div = L.DomUtil.create(
                 'div',
                 'ayca-density-panel'
@@ -1029,7 +464,7 @@ class DensityCircleControl(MacroElement):
                 </div>
 
                 <div style="font-size:11px;color:#666;margin-bottom:8px;">
-                    Yalnızca haritada görünür alt gruplardaki eczaneler sayılıyor
+                    Tüm eczaneler sayılıyor
                 </div>
 
                 <div style="display:flex;justify-content:space-between;gap:18px;font-size:14px;margin:5px 0;">
@@ -1080,21 +515,31 @@ class DensityCircleControl(MacroElement):
                 >
                     Kırmızı noktayı sürükleyerek çemberi taşıyabilirsiniz.
                 </div>
-
-                <div
-                    id="ayca-group-breakdown"
-                    style="margin-top:9px;padding-top:8px;border-top:1px solid #e3e3e3;font-size:11px;line-height:1.45;"
-                ></div>
             `;
 
-            div.style.background = 'rgba(255,255,255,.97)';
-            div.style.border = '1px solid #d8d8d8';
-            div.style.borderRadius = '10px';
-            div.style.padding = '12px 14px';
-            div.style.minWidth = '225px';
-            div.style.boxShadow = '0 2px 8px rgba(0,0,0,.15)';
-            div.style.fontFamily = 'Arial, sans-serif';
-            div.style.color = '#222';
+            div.style.background =
+                'rgba(255,255,255,.97)';
+
+            div.style.border =
+                '1px solid #d8d8d8';
+
+            div.style.borderRadius =
+                '10px';
+
+            div.style.padding =
+                '12px 14px';
+
+            div.style.minWidth =
+                '225px';
+
+            div.style.boxShadow =
+                '0 2px 8px rgba(0,0,0,.15)';
+
+            div.style.fontFamily =
+                'Arial, sans-serif';
+
+            div.style.color =
+                '#222';
 
             L.DomEvent.disableClickPropagation(div);
             L.DomEvent.disableScrollPropagation(div);
@@ -1103,14 +548,28 @@ class DensityCircleControl(MacroElement):
         }
     });
 
-    map.addControl(new DensityControl());
+    map.addControl(
+        new DensityControl()
+    );
 
-    function distanceMeters(lat1, lon1, lat2, lon2) {
+
+    function distanceMeters(
+        lat1,
+        lon1,
+        lat2,
+        lon2
+    ) {
+
         const R = 6371000;
-        const toRad = d => d * Math.PI / 180;
 
-        const dLat = toRad(lat2 - lat1);
-        const dLon = toRad(lon2 - lon1);
+        const toRad =
+            d => d * Math.PI / 180;
+
+        const dLat =
+            toRad(lat2 - lat1);
+
+        const dLon =
+            toRad(lon2 - lon1);
 
         const a =
             Math.sin(dLat / 2) ** 2 +
@@ -1118,17 +577,26 @@ class DensityCircleControl(MacroElement):
             Math.cos(toRad(lat2)) *
             Math.sin(dLon / 2) ** 2;
 
-        return 2 * R * Math.asin(Math.sqrt(a));
+        return (
+            2
+            * R
+            * Math.asin(Math.sqrt(a))
+        );
     }
 
+
     function updateDensity() {
-        const center = densityCircle.getLatLng();
-        const radius = densityCircle.getRadius();
+
+        const center =
+            densityCircle.getLatLng();
+
+        const radius =
+            densityCircle.getRadius();
 
         let count = 0;
-        const groupCounts = {};
 
         pharmacies.forEach(p => {
+
             if (
                 distanceMeters(
                     center.lat,
@@ -1138,24 +606,24 @@ class DensityCircleControl(MacroElement):
                 ) <= radius
             ) {
                 count += 1;
-
-                const groupName = p.group || 'Grupsuz';
-                groupCounts[groupName] =
-                    (groupCounts[groupName] || 0) + 1;
             }
+
         });
 
         const radiusEl =
-            document.getElementById('ayca-radius-value');
+            document.getElementById(
+                'ayca-radius-value'
+            );
 
         const countEl =
-            document.getElementById('ayca-count-value');
+            document.getElementById(
+                'ayca-count-value'
+            );
 
         const shareEl =
-            document.getElementById('ayca-share-value');
-
-        const breakdownEl =
-            document.getElementById('ayca-group-breakdown');
+            document.getElementById(
+                'ayca-share-value'
+            );
 
         if (radiusEl) {
             radiusEl.textContent =
@@ -1168,164 +636,173 @@ class DensityCircleControl(MacroElement):
         }
 
         if (shareEl) {
-            shareEl.textContent = total
-                ? ((count / total) * 100)
-                    .toFixed(1)
-                    .replace('.', ',') + '%'
-                : '0%';
-        }
-
-        if (breakdownEl) {
-            const order = ['A1', 'A2', 'A3', 'B1', 'B2', 'B3', 'C1', 'C2', 'C3', 'D1', 'D2', 'D3', 'E1', 'E2', 'E3', 'F1', 'F2', 'F3', 'G1', 'G2', 'G3', 'H1', 'H2', 'H3', 'K1', 'K2', 'K3', 'Grupsuz'];
-
-            const rows = order
-                .filter(group => groupCounts[group])
-                .map(
-                    group =>
-                        `<div style="display:flex;justify-content:space-between;gap:14px;">
-                            <span>${group}</span>
-                            <strong>${groupCounts[group]}</strong>
-                        </div>`
+            shareEl.textContent =
+                total
+                ? (
+                    (count / total) * 100
                 )
-                .join('');
-
-            breakdownEl.innerHTML = rows
-                ? '<div style="font-weight:700;margin-bottom:4px;">Grup dağılımı</div>' + rows
-                : '<span style="color:#777;">Çember içinde eczane yok.</span>';
+                .toFixed(1)
+                .replace('.', ',')
+                + '%'
+                : '0%';
         }
     }
 
-    centerHandle.on('drag', function(e) {
-        densityCircle.setLatLng(
-            e.target.getLatLng()
-        );
 
-        updateDensity();
-    });
+    centerHandle.on(
+        'drag',
+        function(e) {
 
-    centerHandle.on('dragend', function(e) {
-        densityCircle.setLatLng(
-            e.target.getLatLng()
-        );
+            densityCircle.setLatLng(
+                e.target.getLatLng()
+            );
 
-        updateDensity();
-    });
+            updateDensity();
+        }
+    );
 
-    setTimeout(function() {
 
-        const slider =
-            document.getElementById('ayca-radius-slider');
+    centerHandle.on(
+        'dragend',
+        function(e) {
 
-        const centerButton =
-            document.getElementById('ayca-center-mode');
+            densityCircle.setLatLng(
+                e.target.getLatLng()
+            );
 
-        const hint =
-            document.getElementById('ayca-density-hint');
+            updateDensity();
+        }
+    );
 
-        let chooseCenter = false;
 
-        if (slider) {
+    setTimeout(
+        function() {
 
-            slider.addEventListener(
-                'input',
-                function() {
+            const slider =
+                document.getElementById(
+                    'ayca-radius-slider'
+                );
 
-                    densityCircle.setRadius(
-                        Number(this.value)
+            const centerButton =
+                document.getElementById(
+                    'ayca-center-mode'
+                );
+
+            const hint =
+                document.getElementById(
+                    'ayca-density-hint'
+                );
+
+            let chooseCenter = false;
+
+
+            if (slider) {
+
+                slider.addEventListener(
+                    'input',
+                    function() {
+
+                        densityCircle.setRadius(
+                            Number(this.value)
+                        );
+
+                        updateDensity();
+                    }
+                );
+
+            }
+
+
+            if (centerButton) {
+
+                centerButton.addEventListener(
+                    'click',
+                    function() {
+
+                        chooseCenter =
+                            !chooseCenter;
+
+                        if (chooseCenter) {
+
+                            this.textContent =
+                                'Haritada bir noktaya tıkla';
+
+                            this.style.background =
+                                '#FDECEC';
+
+                            this.style.borderColor =
+                                '#C62828';
+
+                            if (hint) {
+                                hint.textContent =
+                                    'Şimdi haritada çemberin merkezini istediğiniz yere tıklayın.';
+                            }
+
+                        } else {
+
+                            this.textContent =
+                                'Haritadan merkez seç';
+
+                            this.style.background =
+                                'white';
+
+                            this.style.borderColor =
+                                '#bbb';
+
+                            if (hint) {
+                                hint.textContent =
+                                    'Kırmızı noktayı sürükleyerek çemberi taşıyabilirsiniz.';
+                            }
+                        }
+                    }
+                );
+            }
+
+
+            map.on(
+                'click',
+                function(e) {
+
+                    if (!chooseCenter) {
+                        return;
+                    }
+
+                    centerHandle.setLatLng(
+                        e.latlng
+                    );
+
+                    densityCircle.setLatLng(
+                        e.latlng
                     );
 
                     updateDensity();
-                }
-            );
-        }
 
-        if (centerButton) {
+                    chooseCenter = false;
 
-            centerButton.addEventListener(
-                'click',
-                function() {
+                    if (centerButton) {
 
-                    chooseCenter =
-                        !chooseCenter;
-
-                    if (chooseCenter) {
-
-                        this.textContent =
-                            'Haritada bir noktaya tıkla';
-
-                        this.style.background =
-                            '#FDECEC';
-
-                        this.style.borderColor =
-                            '#C62828';
-
-                        if (hint) {
-                            hint.textContent =
-                                'Şimdi haritada çemberin merkezini istediğiniz yere tıklayın.';
-                        }
-
-                    } else {
-
-                        this.textContent =
+                        centerButton.textContent =
                             'Haritadan merkez seç';
 
-                        this.style.background =
+                        centerButton.style.background =
                             'white';
 
-                        this.style.borderColor =
+                        centerButton.style.borderColor =
                             '#bbb';
+                    }
 
-                        if (hint) {
-                            hint.textContent =
-                                'Kırmızı noktayı sürükleyerek çemberi taşıyabilirsiniz.';
-                        }
+                    if (hint) {
+                        hint.textContent =
+                            'Merkez değiştirildi. Kırmızı noktayı da sürükleyebilirsiniz.';
                     }
                 }
             );
-        }
 
-        map.on(
-            'click',
-            function(e) {
+            updateDensity();
 
-                if (!chooseCenter) {
-                    return;
-                }
-
-                centerHandle.setLatLng(
-                    e.latlng
-                );
-
-                densityCircle.setLatLng(
-                    e.latlng
-                );
-
-                updateDensity();
-
-                chooseCenter = false;
-
-                if (centerButton) {
-
-                    centerButton.textContent =
-                        'Haritadan merkez seç';
-
-                    centerButton.style.background =
-                        'white';
-
-                    centerButton.style.borderColor =
-                        '#bbb';
-                }
-
-                if (hint) {
-                    hint.textContent =
-                        'Merkez değiştirildi. Kırmızı noktayı da sürükleyebilirsiniz.';
-                }
-            }
-        );
-
-        updateDensity();
-
-    }, 0);
+        },
+        0
+    );
 
 })();
 {% endmacro %}
@@ -1340,35 +817,26 @@ class DensityCircleControl(MacroElement):
 def add_density_circle(
     map_obj: folium.Map,
     df: pd.DataFrame,
-    selected_groups: set[str],
 ) -> None:
-    """Haritada görünür olan seçili gruplardaki eczaneleri sayar."""
 
-    visible_df = df.loc[
-        df["Grup"].isin(selected_groups)
-    ].copy()
-
-    if visible_df.empty:
+    if df.empty:
         return
 
     pharmacy_points = []
 
-    for _, row in visible_df.iterrows():
-        group_name = str(row["Grup"])
-
+    for _, row in df.iterrows():
         pharmacy_points.append(
             {
                 "name": str(row["Eczane"]),
                 "lat": float(row["Latitude"]),
                 "lon": float(row["Longitude"]),
-                "group": group_name,
             }
         )
 
     control = DensityCircleControl(
         pharmacy_points=pharmacy_points,
-        center_lat=float(visible_df["Latitude"].median()),
-        center_lon=float(visible_df["Longitude"].median()),
+        center_lat=float(df["Latitude"].median()),
+        center_lon=float(df["Longitude"].median()),
     )
 
     control.add_to(map_obj)
@@ -1380,25 +848,12 @@ def add_density_circle(
 
 def build_map(
     df: pd.DataFrame,
-    selected_groups: set[str],
 ) -> folium.Map:
 
     center = [
-        float(
-            df["Latitude"].median()
-        ),
-        float(
-            df["Longitude"].median()
-        ),
+        float(df["Latitude"].median()),
+        float(df["Longitude"].median()),
     ]
-
-    # --------------------------------------------------------
-    # prefer_canvas=False
-    #
-    # Kesikli çizgilerin SVG olarak çizilmesini sağlıyor.
-    # Grup değişikliklerinde çizgilerin güncellenmesi açısından
-    # daha güvenilir.
-    # --------------------------------------------------------
 
     m = folium.Map(
         location=center,
@@ -1407,11 +862,6 @@ def build_map(
         control_scale=True,
         prefer_canvas=False,
     )
-
-    # --------------------------------------------------------
-    # HARİTA ALTLIĞI — SİVAS İLE AYNI
-    # API key gerektirmez
-    # --------------------------------------------------------
 
     folium.TileLayer(
         tiles="CartoDB positron",
@@ -1427,39 +877,15 @@ def build_map(
         show=False,
     ).add_to(m)
 
-    # --------------------------------------------------------
-    # ÖNCE ÇİZGİLER
-    # SONRA MARKERLAR
-    #
-    # Böylece renkli toplar çizginin üstünde kalır.
-    # --------------------------------------------------------
-
-    add_group_lines(
-        m,
-        df,
-        selected_groups,
-    )
-
     add_markers(
         m,
         df,
-        selected_groups,
     )
-
-    # --------------------------------------------------------
-    # KIRMIZI YOĞUNLUK ÇEMBERİ
-    # Tüm eczaneleri canlı olarak sayar.
-    # --------------------------------------------------------
 
     add_density_circle(
         m,
         df,
-        selected_groups,
     )
-
-    # --------------------------------------------------------
-    # HARİTA ARAÇLARI
-    # --------------------------------------------------------
 
     Fullscreen(
         position="topright",
@@ -1477,79 +903,22 @@ def build_map(
         position="topright",
     ).add_to(m)
 
-    # --------------------------------------------------------
-    # SEÇİLİ GRUPLARA GÖRE HARİTA SINIRI
-    # --------------------------------------------------------
-
-    selected_df = df[
-        df["Grup"].isin(
-            selected_groups
-        )
-    ]
-
-    if not selected_df.empty:
-        bounds_df = selected_df
-    else:
-        bounds_df = df
-
-    if not bounds_df.empty:
-
+    if not df.empty:
         m.fit_bounds(
             [
                 [
-                    float(
-                        bounds_df[
-                            "Latitude"
-                        ].min()
-                    ),
-                    float(
-                        bounds_df[
-                            "Longitude"
-                        ].min()
-                    ),
+                    float(df["Latitude"].min()),
+                    float(df["Longitude"].min()),
                 ],
                 [
-                    float(
-                        bounds_df[
-                            "Latitude"
-                        ].max()
-                    ),
-                    float(
-                        bounds_df[
-                            "Longitude"
-                        ].max()
-                    ),
+                    float(df["Latitude"].max()),
+                    float(df["Longitude"].max()),
                 ],
             ],
             padding=(25, 25),
         )
 
     return m
-
-
-# ============================================================
-# STREAMLIT SESSION STATE
-# ============================================================
-
-def init_state() -> None:
-
-    for group_name in ALL_GROUPS:
-
-        st.session_state.setdefault(
-            f"filter_{group_name}",
-            True,
-        )
-
-
-def select_all(
-    value: bool,
-) -> None:
-
-    for group_name in ALL_GROUPS:
-
-        st.session_state[
-            f"filter_{group_name}"
-        ] = value
 
 
 # ============================================================
@@ -1573,152 +942,51 @@ if not pharmacy_path.exists():
 
 try:
 
-    # --------------------------------------------------------
-    # EXCEL OKU
-    # --------------------------------------------------------
-
     pharmacies = read_pharmacies(
         str(pharmacy_path),
         pharmacy_path.stat().st_mtime_ns,
     )
 
-    # --------------------------------------------------------
-    # GÜNCEL GRUP EŞLEMESİ
-    # --------------------------------------------------------
-
-    group_map = build_group_map()
-
-    pharmacies["Grup"] = (
-        pharmacies["Anahtar"]
-        .map(group_map)
-        .astype("string")
+    pharmacies = add_display_coordinates(
+        pharmacies
     )
 
     # --------------------------------------------------------
-    # ÜST ÜSTE BİNEN MARKERLARI GÖRSEL OLARAK AYIR
-    # Gerçek Latitude/Longitude değişmez.
-    # --------------------------------------------------------
-
-    pharmacies = add_display_coordinates(pharmacies)
-
-    # --------------------------------------------------------
-    # SESSION STATE
-    # --------------------------------------------------------
-
-    init_state()
-
-    # ========================================================
     # SIDEBAR
-    # ========================================================
+    # Grup seçimi YOK.
+    # Sadece toplam eczane sayısı gösterilir.
+    # --------------------------------------------------------
 
     st.sidebar.header(
-        "Denizli 9 Ana Grup / 27 Alt Grup"
+        "Denizli Eczaneleri"
     )
-
-    c1, c2 = st.sidebar.columns(2)
-
-    c1.button(
-        "Tümünü Aç",
-        on_click=select_all,
-        args=(True,),
-        use_container_width=True,
-    )
-
-    c2.button(
-        "Temizle",
-        on_click=select_all,
-        args=(False,),
-        use_container_width=True,
-    )
-
-    # --------------------------------------------------------
-    # GRUP SEÇİMİ
-    # --------------------------------------------------------
-
-    selected_groups: set[str] = set()
-
-    for group_name in ALL_GROUPS:
-
-        count = int(
-            (
-                pharmacies["Grup"]
-                == group_name
-            ).sum()
-        )
-
-        checked = st.sidebar.checkbox(
-            f"{group_name} ({count})",
-            key=f"filter_{group_name}",
-        )
-
-        if checked:
-            selected_groups.add(
-                group_name
-            )
-
-    # --------------------------------------------------------
-    # İSTATİSTİKLER
-    # --------------------------------------------------------
-
-    st.sidebar.divider()
 
     st.sidebar.metric(
         "Toplam tekil eczane",
         len(pharmacies),
     )
 
-    st.sidebar.metric(
-        "Grubu eşleşen",
-        int(
-            pharmacies[
-                "Grup"
-            ].notna().sum()
-        ),
+    st.sidebar.caption(
+        "Alt grup seçimi kapatıldı. "
+        "Haritada tüm eczaneler birlikte gösteriliyor."
     )
 
     # --------------------------------------------------------
-    # GRUPSUZ ECZANELER
-    # --------------------------------------------------------
-
-    missing = (
-        pharmacies[
-            pharmacies["Grup"].isna()
-        ]["Eczane"]
-        .astype(str)
-        .tolist()
-    )
-
-    if missing:
-
-        with st.sidebar.expander(
-            f"Grupsuz ({len(missing)})"
-        ):
-
-            st.write(
-                ", ".join(missing)
-            )
-
-    # ========================================================
     # ANA EKRAN
-    # ========================================================
+    # --------------------------------------------------------
 
     st.title(
-        "Denizli Eczane Grup Haritası"
+        "Denizli Eczane Haritası"
     )
 
     st.caption(
-        "9 ana grup · 27 alt grup · aynı alt gruptaki eczaneler "
-        "kesikli çizgilerle birbirine bağlanır · "
+        "Tüm eczaneler gruptan bağımsız gösterilir · "
+        "eczane adını görmek için noktanın üzerine gelin · "
         "kırmızı yoğunluk çemberi içindeki eczaneleri canlı sayar"
     )
 
-    # --------------------------------------------------------
-    # HARİTA
-    # --------------------------------------------------------
-
     m = build_map(
-        pharmacies,
-        selected_groups,
+        pharmacies
     )
 
     components.html(
