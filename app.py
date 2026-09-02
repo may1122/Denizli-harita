@@ -226,7 +226,6 @@ GROUPS: dict[str, list[str]] = {
 
     "F1": [
         "ÖZNUR",
-        "CEYLAN",
         "PELİTLİBAĞ",
         "MERKEZ",
         "ÇETİNKAYA",
