@@ -225,7 +225,7 @@ GROUPS: dict[str, list[str]] = {
         "ÖZNUR",
     ],
 
-    "F1": [
+    "F3": [
         "PELİTLİBAĞ",
         "MERKEZ",
         "ÇETİNKAYA",
@@ -248,7 +248,7 @@ GROUPS: dict[str, list[str]] = {
         "ANAFARTALAR",
 
     ],
-    "F3": [
+    "F1": [
 
         "KOÇAK",
         "BÜŞRA BOYACI",
