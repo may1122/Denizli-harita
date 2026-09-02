@@ -102,8 +102,6 @@ GROUPS: dict[str, list[str]] = {
         "SEDA BAŞGİL",
         "İLKE",
         "GÖZDE GÜNDÜZ",
-        "SENA KELLECİ",
-        "AKTÜRK",
         "SEDA BAŞDİL",
         "MEHMET KAYA",
         "IŞIMLIK",
@@ -117,6 +115,8 @@ GROUPS: dict[str, list[str]] = {
         "TURUNÇ",
         "GÜLERYÜZ",
         "AYFER CEYLAN",
+          "ASLI",
+ 
 
     ],
     "C3": [
@@ -124,8 +124,9 @@ GROUPS: dict[str, list[str]] = {
         "ERTUĞRUL",
         "CEMRE",
          "KİRAZ",
-        "ASLI",
         "UMAY",
+        "SENA KELLECİ",
+        "AKTÜRK",
     ],
 }
 
