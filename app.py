@@ -141,13 +141,11 @@ GROUPS: dict[str, list[str]] = {
         "DEMİROĞLU",
     ],
     "G3": [
-        "PAMUKKALE",
         "ÜNİVERSİTE",
         "SOYLU",
         "KAYHAN",
         "CANDENİZ",
         "ASMALI",
-        "İNANÖZ",
         "İSTİKLAL",
         "HÜRRİYET",
         "AKDENİZ",
@@ -160,6 +158,8 @@ GROUPS: dict[str, list[str]] = {
         "EZGİ KIRDI",
         "ZEYTİNKÖY SEMA",
         "GÜRSOY",
+        "PAMUKKALE",
+        "İNANÖZ",
     ],
 
     "H1": [
