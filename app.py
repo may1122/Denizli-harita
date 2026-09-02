@@ -84,6 +84,7 @@ GROUPS: dict[str, list[str]] = {
         "ÖZGEN",
         "EMİR",
         "ADA",
+        "HAZAR",
     ],
     "B3": [
         "PAMUKKALE AKTÜRK",
@@ -92,7 +93,6 @@ GROUPS: dict[str, list[str]] = {
         "PAPATYA",
         "CANSU",
         "GÜLRİZ",
-        "HAZAR",
         "TURAN",
         "KÖKNAR",
     ],
