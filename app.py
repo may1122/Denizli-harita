@@ -1348,15 +1348,17 @@ def build_map(
         prefer_canvas=False,
     )
 
-    # Sade harita: Carto Positron görünümü, API key istemeyen doğrudan tile URL'si
+    # Sade ve API key istemeyen açık renk ESRI taban haritası
     folium.TileLayer(
-        tiles="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
-        attr="&copy; OpenStreetMap contributors &copy; CARTO",
+        tiles=(
+            "https://server.arcgisonline.com/ArcGIS/rest/services/"
+            "Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}"
+        ),
+        attr="Tiles &copy; Esri",
         name="Sade harita",
         control=True,
         show=True,
-        subdomains="abcd",
-        max_zoom=20,
+        max_zoom=16,
     ).add_to(m)
 
     # İstersen sağ üst katman menüsünden detaylı haritaya geçebilirsin
