@@ -202,7 +202,6 @@ GROUPS: dict[str, list[str]] = {
         "ASLAN",
     ],
     "K2": [
-        "MERVE",
         "CANSU ERKİLET",
         "NAZAN",
         "TOLGAY",
