@@ -41,11 +41,9 @@ A_GROUPS: dict[str, list[str]] = {
         "ALBAYRAK",
         "CEREN FİLİZER",
         "CAN SUYU",
-        "GENCER",
         "IRMAK",
         "OZAN",
         "ÖZGÜ",
-        "SAHRA",
        
     ],
     "A2": [
@@ -56,6 +54,7 @@ A_GROUPS: dict[str, list[str]] = {
         "ERMAN",
         "DERYAM",
         "KAYDIHAN",
+        "GENCER",
 
     ],
     "A3": [
@@ -66,6 +65,7 @@ A_GROUPS: dict[str, list[str]] = {
         "ÖZGÜN KIYAT",
         "ALTINOVA",
         "BAŞÇAVUŞ",
+        "SAHRA",
     ],
 }
 
