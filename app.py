@@ -69,7 +69,6 @@ GROUP_COLORS = {
 # ============================================================
 
 GROUPS: dict[str, list[str]] = {
-
     "A1": [
         'AYNUR GÜLER',
         'BAŞÇAVUŞ',
@@ -137,37 +136,37 @@ GROUPS: dict[str, list[str]] = {
     ],
 
     "C1": [
-        'EGE',
+        'ÖZDERMAN',
+        'ERDEM',
+        'DENİZLİ',
+        'DUYGU',
+        'SAĞLIK',
+        'FATİH',
         'ŞİFA',
-        'ESİN',
+        'ERCAN',
+        'BÜYÜK',
+    ],
+
+    "C2": [
+        'EGE',
+        'AYKUT',
         'ŞULE',
         'SERGEN',
         'DAĞDEVİREN',
-        'ÖZDERMAN',
+        'ESİN',
         'BAYRAMYERİ',
         'ANAFARTALAR',
     ],
 
-    "C2": [
+    "C3": [
+        'DİŞÇİOĞLU',
         'FATIMA ŞENTÜRK',
         'ÇETİNKAYA',
         'MERVE',
         'MERKEZ',
         'ASMALI',
         'PELİTLİBAĞ',
-        'DİŞÇİOĞLU',
         'GÜRKAN',
-    ],
-
-    "C3": [
-        'DENİZLİ',
-        'DUYGU',
-        'SAĞLIK',
-        'FATİH',
-        'ERDEM',
-        'AYKUT',
-        'ERCAN',
-        'BÜYÜK',
     ],
 
     "D1": [
@@ -298,7 +297,7 @@ GROUPS: dict[str, list[str]] = {
         'SEVİL',
         'SEÇKİN',
         'TEMMUZ',
-        'İNCEOĞLU',
+        'İNCEOGLU',
         'ANIL',
         'DOĞAL',
     ],
@@ -320,7 +319,7 @@ GROUPS: dict[str, list[str]] = {
         'SAYGIN',
         'CANDAN',
         'DEMİROĞLU',
-        'ÜNİVERSİTE',
+        'ÜNIVERSİTE',
         'İNANÖZ',
     ],
 
@@ -364,6 +363,7 @@ GROUPS: dict[str, list[str]] = {
         'SERVET',
         'ÇAMLIK',
     ],
+
 }
 
 
