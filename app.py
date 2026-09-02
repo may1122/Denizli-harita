@@ -217,6 +217,7 @@ GROUPS: dict[str, list[str]] = {
         "AYLİN",
         "İSTİKLAL",
         "HÜRRİYET",
+        "ÖZKAN",
     ],
 }
 
