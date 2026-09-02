@@ -204,7 +204,7 @@ GROUPS: dict[str, list[str]] = {
         "CANSU ERKİLET",
         "NAZAN",
         "TOLGAY",
-        "AKYAKA",
+        "AKKAYA",
         "SEVİM",
     ],
     "K3": [
