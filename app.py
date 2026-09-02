@@ -30,6 +30,55 @@ ECZANE_FILE_NAME = "denizli_eczaneler.xlsx"
 
 
 # ============================================================
+# ŞİMDİLİK SADECE GRUP A AKTİF
+# A1 / A2 / A3 kendi içinde bağlanır.
+# Diğer tüm eczaneler "DİĞER" olarak düz gösterilir.
+# ============================================================
+
+A_GROUPS: dict[str, list[str]] = {
+    "A1": [
+        "KEKİK",
+        "ALBAYRAK",
+        "CEREN FİLİZER",
+        "CAN SUYU",
+        "GENCER",
+        "IRMAK",
+        "OZAN",
+        "ÖZGÜ",
+        "SAHRA",
+       
+    ],
+    "A2": [
+        "CEYDA POLAT",
+        "AYNUR GÜLER",
+        "YENİLMEZ",
+        "KUNDAKÇI",
+        "ERMAN",
+        "DERYAM",
+        "KAYDIHAN",
+
+    ],
+    "A3": [
+        "CADDE SAĞLIK",
+        "İZMİRLİ",
+        "GÜNEŞ",
+        "TÜFEKÇİOĞLU",
+        "ÖZGÜN KIYAT",
+        "ALTINOVA",
+        "BAŞÇAVUŞ",
+    ],
+}
+
+A_GROUP_COLORS = {
+    "A1": "#4A148C",
+    "A2": "#7B1FA2",
+    "A3": "#AB47BC",
+}
+
+OTHER_COLOR = "#90A4AE"
+
+
+# ============================================================
 # ECZANE İSMİ NORMALİZASYONU
 # ============================================================
 
@@ -316,6 +365,142 @@ def add_display_coordinates(
     return work
 
 
+
+# ============================================================
+# A GRUBU EŞLEME
+# ============================================================
+
+def build_a_group_map() -> dict[str, str]:
+    result: dict[str, str] = {}
+
+    for group_name, names in A_GROUPS.items():
+        for name in names:
+            key = normalize_name(name)
+
+            if key in result and result[key] != group_name:
+                raise ValueError(
+                    f"{name} birden fazla A alt grubunda tanımlanmış: "
+                    f"{result[key]} ve {group_name}"
+                )
+
+            result[key] = group_name
+
+    return result
+
+
+# ============================================================
+# MINIMUM SPANNING TREE
+# Aynı A alt grubundaki eczaneleri en kısa ağ ile bağlar.
+# ============================================================
+
+def minimum_spanning_edges(
+    points: list[tuple[float, float]],
+) -> list[tuple[int, int]]:
+
+    if len(points) < 2:
+        return []
+
+    used = {0}
+    edges: list[tuple[int, int]] = []
+
+    while len(used) < len(points):
+        best: tuple[float, int, int] | None = None
+
+        for i in used:
+            for j in range(len(points)):
+                if j in used:
+                    continue
+
+                distance = latlon_distance_m(
+                    points[i],
+                    points[j],
+                )
+
+                if best is None or distance < best[0]:
+                    best = (distance, i, j)
+
+        assert best is not None
+
+        _, i, j = best
+        edges.append((i, j))
+        used.add(j)
+
+    return edges
+
+
+# ============================================================
+# SADECE A1 / A2 / A3 BAĞLANTI ÇİZGİLERİ
+# ============================================================
+
+def add_a_group_lines(
+    map_obj: folium.Map,
+    df: pd.DataFrame,
+) -> None:
+
+    for group_name in ("A1", "A2", "A3"):
+
+        subset = (
+            df.loc[
+                df["Grup"].eq(group_name),
+                [
+                    "Eczane",
+                    "Anahtar",
+                    "Latitude",
+                    "Longitude",
+                    "DisplayLatitude",
+                    "DisplayLongitude",
+                ],
+            ]
+            .dropna(subset=["Latitude", "Longitude"])
+            .drop_duplicates(subset=["Anahtar"], keep="first")
+            .copy()
+            .reset_index(drop=True)
+        )
+
+        if len(subset) < 2:
+            continue
+
+        real_points = [
+            (float(row.Latitude), float(row.Longitude))
+            for row in subset.itertuples(index=False)
+        ]
+
+        draw_points = [
+            (float(row.DisplayLatitude), float(row.DisplayLongitude))
+            for row in subset.itertuples(index=False)
+        ]
+
+        edges = minimum_spanning_edges(real_points)
+
+        line_layer = FeatureGroup(
+            name=f"{group_name} bağlantıları",
+            show=True,
+        )
+
+        for i, j in edges:
+            pharmacy_1 = str(subset.iloc[i]["Eczane"])
+            pharmacy_2 = str(subset.iloc[j]["Eczane"])
+
+            folium.PolyLine(
+                locations=[
+                    draw_points[i],
+                    draw_points[j],
+                ],
+                color=A_GROUP_COLORS[group_name],
+                weight=2.8,
+                opacity=0.90,
+                dash_array="7 6",
+                line_cap="round",
+                line_join="round",
+                tooltip=(
+                    f"{group_name}: "
+                    f"{pharmacy_1} ↔ {pharmacy_2}"
+                ),
+            ).add_to(line_layer)
+
+        line_layer.add_to(map_obj)
+
+
 # ============================================================
 # TÜM ECZANELERİ TEK TİP MARKERLA GÖSTER
 # ============================================================
@@ -325,58 +510,82 @@ def add_markers(
     df: pd.DataFrame,
 ) -> None:
 
-    marker_layer = FeatureGroup(
-        name="Tüm eczaneler",
-        show=True,
-    )
+    # A1 / A2 / A3 ayrı renklerle,
+    # diğer tüm eczaneler tek nötr renkle gösterilir.
+    render_groups = ["A1", "A2", "A3", "DİĞER"]
 
-    for _, row in df.iterrows():
+    for group_name in render_groups:
 
-        pharmacy_name = html.escape(
-            str(row["Eczane"])
+        if group_name == "DİĞER":
+            subset = df.loc[df["Grup"].eq("DİĞER")]
+            color = OTHER_COLOR
+            layer_name = "Diğer eczaneler"
+        else:
+            subset = df.loc[df["Grup"].eq(group_name)]
+            color = A_GROUP_COLORS[group_name]
+            layer_name = f"{group_name} eczaneleri"
+
+        if subset.empty:
+            continue
+
+        marker_layer = FeatureGroup(
+            name=layer_name,
+            show=True,
         )
 
-        address = html.escape(
-            str(row["Adres"])
-        )
+        for _, row in subset.iterrows():
 
-        tooltip = (
-            '<div style="'
-            'font-size:13px;'
-            'line-height:1.35;'
-            '">'
-            f"<b>{pharmacy_name}</b>"
-        )
-
-        if address:
-            tooltip += (
-                "<br>"
-                '<span style="color:#666">'
-                f"{address}"
-                "</span>"
+            pharmacy_name = html.escape(
+                str(row["Eczane"])
             )
 
-        tooltip += "</div>"
+            address = html.escape(
+                str(row["Adres"])
+            )
 
-        folium.CircleMarker(
-            location=[
-                float(row["DisplayLatitude"]),
-                float(row["DisplayLongitude"]),
-            ],
-            radius=6.0,
-            color="#FFFFFF",
-            weight=1.6,
-            fill=True,
-            fill_color="#1565C0",
-            fill_opacity=0.96,
-            tooltip=folium.Tooltip(
-                tooltip,
-                sticky=True,
-                direction="top",
-            ),
-        ).add_to(marker_layer)
+            tooltip = (
+                '<div style="'
+                'font-size:13px;'
+                'line-height:1.35;'
+                '">'
+                f"<b>{pharmacy_name}</b>"
+            )
 
-    marker_layer.add_to(map_obj)
+            if group_name != "DİĞER":
+                tooltip += (
+                    "<br>"
+                    f"<b>{html.escape(group_name)}</b>"
+                )
+
+            if address:
+                tooltip += (
+                    "<br>"
+                    '<span style="color:#666">'
+                    f"{address}"
+                    "</span>"
+                )
+
+            tooltip += "</div>"
+
+            folium.CircleMarker(
+                location=[
+                    float(row["DisplayLatitude"]),
+                    float(row["DisplayLongitude"]),
+                ],
+                radius=6.0 if group_name != "DİĞER" else 4.5,
+                color="#FFFFFF",
+                weight=1.6 if group_name != "DİĞER" else 1.0,
+                fill=True,
+                fill_color=color,
+                fill_opacity=0.98 if group_name != "DİĞER" else 0.65,
+                tooltip=folium.Tooltip(
+                    tooltip,
+                    sticky=True,
+                    direction="top",
+                ),
+            ).add_to(marker_layer)
+
+        marker_layer.add_to(map_obj)
 
 
 # ============================================================
@@ -877,6 +1086,12 @@ def build_map(
         show=False,
     ).add_to(m)
 
+    # Önce A1/A2/A3 bağlantı çizgileri, sonra markerlar.
+    add_a_group_lines(
+        m,
+        df,
+    )
+
     add_markers(
         m,
         df,
@@ -952,6 +1167,18 @@ try:
     )
 
     # --------------------------------------------------------
+    # SADECE A GRUBU EŞLEŞTİR
+    # --------------------------------------------------------
+
+    a_group_map = build_a_group_map()
+
+    pharmacies["Grup"] = (
+        pharmacies["Anahtar"]
+        .map(a_group_map)
+        .fillna("DİĞER")
+    )
+
+    # --------------------------------------------------------
     # SIDEBAR
     # Grup seçimi YOK.
     # Sadece toplam eczane sayısı gösterilir.
@@ -966,9 +1193,20 @@ try:
         len(pharmacies),
     )
 
+    for group_name in ("A1", "A2", "A3"):
+        st.sidebar.metric(
+            group_name,
+            int(pharmacies["Grup"].eq(group_name).sum()),
+        )
+
+    st.sidebar.metric(
+        "Diğer",
+        int(pharmacies["Grup"].eq("DİĞER").sum()),
+    )
+
     st.sidebar.caption(
-        "Alt grup seçimi kapatıldı. "
-        "Haritada tüm eczaneler birlikte gösteriliyor."
+        "Şimdilik yalnızca A1, A2 ve A3 aktif gruplandırılmıştır. "
+        "Diğer eczaneler düz/nötr nokta olarak gösterilir."
     )
 
     # --------------------------------------------------------
@@ -976,13 +1214,13 @@ try:
     # --------------------------------------------------------
 
     st.title(
-        "Denizli Eczane Haritası"
+        "Denizli Eczane Haritası — Grup A"
     )
 
     st.caption(
-        "Tüm eczaneler gruptan bağımsız gösterilir · "
-        "eczane adını görmek için noktanın üzerine gelin · "
-        "kırmızı yoğunluk çemberi içindeki eczaneleri canlı sayar"
+        "A1, A2 ve A3 kendi içlerinde kesikli çizgilerle bağlanır · "
+        "diğer eczaneler şimdilik düz/nötr nokta olarak kalır · "
+        "kırmızı yoğunluk çemberi tüm eczaneleri sayar"
     )
 
     m = build_map(
