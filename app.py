@@ -196,6 +196,7 @@ GROUPS: dict[str, list[str]] = {
         "NEFES",
         "BAHAR",
         "EZGİ",
+        "ASLAN",
     ],
     "G2": [
         "MERVCE",
