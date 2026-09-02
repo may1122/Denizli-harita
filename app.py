@@ -240,13 +240,14 @@ GROUPS: dict[str, list[str]] = {
         "DELİKTAŞ",
         "BAKLAN",
         "AYŞEN",
-
-    ],
-    "F3": [
         "DOKUZKAVAKLAR",
         "DİLEK",
         "NEVA",
         "ANAFARTALAR",
+
+    ],
+    "F3": [
+
         "TEMMUZ",
         "İNCEOĞLU",
         "OCAK",
