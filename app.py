@@ -297,14 +297,11 @@ GROUPS: dict[str, list[str]] = {
         "ARCA",
         "GÜLAY",
         "MORALIOĞLU",
-        "EZO",
         "LOKMAN",
         "ŞULE",
         "DAĞDEVİREN",
         "ŞİFA",
         "EGE",
-        "BAYRAMYERİ",
-        
    
     ],
     "E2": [
@@ -314,6 +311,7 @@ GROUPS: dict[str, list[str]] = {
         "AYKUT",
         "İNCEOĞLU",
         "GÖKHAN",
+        "EZO",
     ],
     "E3": [
         "OCAK",
@@ -322,6 +320,7 @@ GROUPS: dict[str, list[str]] = {
         "ÇOMUT",
         "ESİN",
         "SERGEN",
+        "BAYRAMYERİ",
     ],
 }
 
