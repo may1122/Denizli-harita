@@ -1348,12 +1348,23 @@ def build_map(
         prefer_canvas=False,
     )
 
-    # API key istemeyen OpenStreetMap taban haritası
+    # Sade harita: Carto Positron görünümü, API key istemeyen doğrudan tile URL'si
     folium.TileLayer(
-        tiles="OpenStreetMap",
-        name="Harita",
+        tiles="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+        attr="&copy; OpenStreetMap contributors &copy; CARTO",
+        name="Sade harita",
         control=True,
         show=True,
+        subdomains="abcd",
+        max_zoom=20,
+    ).add_to(m)
+
+    # İstersen sağ üst katman menüsünden detaylı haritaya geçebilirsin
+    folium.TileLayer(
+        tiles="OpenStreetMap",
+        name="Detaylı harita",
+        control=True,
+        show=False,
     ).add_to(m)
 
     # Önce A1-A3 / B1-B3 / C1-C3 / K1-K3 / G1-G3 / F1-F3 / D1-D3 / E1-E3 bağlantı çizgileri, sonra markerlar.
