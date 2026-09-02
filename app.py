@@ -129,7 +129,7 @@ GROUPS: dict[str, list[str]] = {
         "AKTÜRK",
     ],
 
-    "K1": [
+    "H1": [
         "MERVE YAMUÇ",
         "GÖKÇE",
         "ALSANCAK",
@@ -139,7 +139,7 @@ GROUPS: dict[str, list[str]] = {
         "SAYGIN",
         "DEMİROĞLU",
     ],
-    "K2": [
+    "H2": [
         "PAMUKKALE",
         "ÜNİVERSİTE",
         "SOYLU",
@@ -148,7 +148,7 @@ GROUPS: dict[str, list[str]] = {
         "ASMALI",
         "İNANÖZ",
     ],
-    "K3": [
+    "H3": [
         "SU",
         "TUBA",
         "DEVECİ",
@@ -158,7 +158,7 @@ GROUPS: dict[str, list[str]] = {
         "GÜRSOY",
     ],
 
-    "G1": [
+    "K1": [
         "ELVAN",
         "KABAYUKA",
         "ALPLER",
@@ -168,7 +168,7 @@ GROUPS: dict[str, list[str]] = {
         "ERSAN",
         "ÇETİN",
     ],
-    "G2": [
+    "K2": [
         "ZEYNEP SULTAN",
         "GÖKKUŞAĞI",
         "ELİF PAMUKÇU",
@@ -177,7 +177,7 @@ GROUPS: dict[str, list[str]] = {
         "ŞİRİN",
         "ELİF İN",
     ],
-    "G3": [
+    "K3": [
         "KINIKLI",
         "MUTLU GÜNLER",
         "ÇAMLICA",
