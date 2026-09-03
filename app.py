@@ -162,7 +162,7 @@ GROUPS: dict[str, list[str]] = {
         "İNANÖZ",
     ],
 
-    "H1": [
+    "H2": [
         "ELVAN",
         "KABAYUKA",
         "ALPLER",
@@ -172,7 +172,7 @@ GROUPS: dict[str, list[str]] = {
         "ERSAN",
         "ÇETİN",
     ],
-    "H2": [
+    "H1": [
         "ZEYNEP SULTAN",
         "GÖKKUŞAĞI",
         "ELİF PAMUKÇU",
