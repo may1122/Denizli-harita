@@ -108,7 +108,7 @@ GROUPS: dict[str, list[str]] = {
         "SİNEM",
         "ÖZGÜR",
     ],
-    "C2": [
+    "C3": [
         "DENİZİM",
         "UZMAN",
         "29_EKİM",
@@ -120,7 +120,7 @@ GROUPS: dict[str, list[str]] = {
  
 
     ],
-    "C3": [
+    "C2": [
         "ÜMİT",
         "ERTUĞRUL",
         "CEMRE",
