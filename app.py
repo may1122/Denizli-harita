@@ -30,8 +30,8 @@ ECZANE_FILE_NAME = "denizli_eczaneler.xlsx"
 
 
 # ============================================================
-# ŞİMDİLİK GRUP A + B + C + K + G + F + D + E AKTİF
-# A1-A3, B1-B3, C1-C3, K1-K3, G1-G3, F1-F3, D1-D3 ve E1-E3 kendi içinde bağlanır.
+# ŞİMDİLİK GRUP A + B + C + D + E + F + G + H + K AKTİF
+# A1-A3, B1-B3, C1-C3, D1-D3, E1-E3, F1-F3, G1-G3, H1-H3 ve K1-K3 kendi içinde bağlanır.
 # Diğer tüm eczaneler "DİĞER" olarak düz gösterilir.
 # ============================================================
 
@@ -340,6 +340,9 @@ GROUP_COLORS = {
     "G1": "#00695C",
     "G2": "#00897B",
     "G3": "#4DB6AC",
+    "H1": "#B71C1C",
+    "H2": "#E53935",
+    "H3": "#EF9A9A",
     "F1": "#880E4F",
     "F2": "#C2185B",
     "F3": "#F06292",
@@ -643,7 +646,7 @@ def add_display_coordinates(
 
 
 # ============================================================
-# A + B + C + K + G + F + D + E GRUBU EŞLEME
+# A + B + C + D + E + F + G + H + K GRUBU EŞLEME
 # ============================================================
 
 def build_group_map() -> dict[str, str]:
@@ -705,7 +708,7 @@ def minimum_spanning_edges(
 
 
 # ============================================================
-# A1-A3 / B1-B3 / C1-C3 / K1-K3 / G1-G3 / F1-F3 / D1-D3 / E1-E3 BAĞLANTI ÇİZGİLERİ
+# A1-A3 / B1-B3 / C1-C3 / D1-D3 / E1-E3 / F1-F3 / G1-G3 / H1-H3 / K1-K3 BAĞLANTI ÇİZGİLERİ
 # ============================================================
 
 def add_group_lines(
@@ -713,7 +716,7 @@ def add_group_lines(
     df: pd.DataFrame,
 ) -> None:
 
-    for group_name in ("A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3", "K1", "K2", "K3", "G1", "G2", "G3", "F1", "F2", "F3", "D1", "D2", "D3", "E1", "E2", "E3"):
+    for group_name in ("A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3", "D1", "D2", "D3", "E1", "E2", "E3", "F1", "F2", "F3", "G1", "G2", "G3", "H1", "H2", "H3", "K1", "K2", "K3"):
 
         subset = (
             df.loc[
@@ -786,9 +789,9 @@ def add_markers(
     df: pd.DataFrame,
 ) -> None:
 
-    # A1 / A2 / A3 ayrı renklerle,
+    # Tüm tanımlı alt gruplar kendi renkleriyle,
     # diğer tüm eczaneler tek nötr renkle gösterilir.
-    render_groups = ["A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3", "K1", "K2", "K3", "G1", "G2", "G3", "F1", "F2", "F3", "D1", "D2", "D3", "E1", "E2", "E3", "DİĞER"]
+    render_groups = ["A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3", "D1", "D2", "D3", "E1", "E2", "E3", "F1", "F2", "F3", "G1", "G2", "G3", "H1", "H2", "H3", "K1", "K2", "K3", "DİĞER"]
 
     for group_name in render_groups:
 
@@ -1369,7 +1372,7 @@ def build_map(
         show=False,
     ).add_to(m)
 
-    # Önce A1-A3 / B1-B3 / C1-C3 / K1-K3 / G1-G3 / F1-F3 / D1-D3 / E1-E3 bağlantı çizgileri, sonra markerlar.
+    # Önce A1-A3 / B1-B3 / C1-C3 / D1-D3 / E1-E3 / F1-F3 / G1-G3 / H1-H3 / K1-K3 bağlantı çizgileri, sonra markerlar.
     add_group_lines(
         m,
         df,
@@ -1450,7 +1453,7 @@ try:
     )
 
     # --------------------------------------------------------
-    # A + B + C + K + G + F + D + E GRUPLARINI EŞLEŞTİR
+    # A + B + C + D + E + F + G + H + K GRUPLARINI EŞLEŞTİR
     # --------------------------------------------------------
 
     group_map = build_group_map()
@@ -1488,8 +1491,7 @@ try:
         "DİĞER",
     ]
 
-    # Kodda tanımlı olmayan/renksiz H grupları varsa haritada hata vermemesi için
-    # yalnızca gerçekten mevcut grupları seçilebilir listeye al.
+    # Yalnızca gerçekten mevcut grupları seçilebilir listeye al.
     available_groups = [
         group_name
         for group_name in selectable_groups
@@ -1567,11 +1569,11 @@ try:
     # --------------------------------------------------------
 
     st.title(
-        "Denizli Eczane Haritası — Grup A + B + C + K + G + F + D + E"
+        "Denizli Eczane Haritası — Grup A + B + C + D + E + F + G + H + K"
     )
 
     st.caption(
-        "A1-A3, B1-B3, C1-C3, K1-K3, G1-G3, F1-F3, D1-D3 ve E1-E3 kendi içlerinde kesikli çizgilerle bağlanır · "
+        "A1-A3, B1-B3, C1-C3, D1-D3, E1-E3, F1-F3, G1-G3, H1-H3 ve K1-K3 kendi içlerinde kesikli çizgilerle bağlanır · "
         "diğer eczaneler şimdilik düz/nötr nokta olarak kalır · "
         "kırmızı yoğunluk çemberi tüm eczaneleri sayar"
     )
