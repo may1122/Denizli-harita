@@ -1336,6 +1336,7 @@ def add_density_circle(
 
 def build_map(
     df: pd.DataFrame,
+    searched_pharmacy: pd.Series | None = None,
 ) -> folium.Map:
 
     center = [
@@ -1404,7 +1405,46 @@ def build_map(
         position="topright",
     ).add_to(m)
 
-    if not df.empty:
+    if searched_pharmacy is not None:
+        search_lat = float(searched_pharmacy["DisplayLatitude"])
+        search_lon = float(searched_pharmacy["DisplayLongitude"])
+
+        m.location = [search_lat, search_lon]
+        m.options["zoom"] = 17
+
+        # Aranan eczaneyi çok belirgin göster.
+        folium.CircleMarker(
+            location=[search_lat, search_lon],
+            radius=16,
+            color="#000000",
+            weight=4,
+            fill=True,
+            fill_color="#FFFF00",
+            fill_opacity=0.35,
+            tooltip=folium.Tooltip(
+                f'ARANAN ECZANE: {html.escape(str(searched_pharmacy["Eczane"]))}',
+                sticky=True,
+            ),
+        ).add_to(m)
+
+        folium.Marker(
+            location=[search_lat, search_lon],
+            icon=folium.Icon(
+                color="red",
+                icon="plus-sign",
+            ),
+            popup=folium.Popup(
+                (
+                    f'<b>{html.escape(str(searched_pharmacy["Eczane"]))}</b><br>'
+                    f'Grup: {html.escape(str(searched_pharmacy["Grup"]))}<br>'
+                    f'{html.escape(str(searched_pharmacy["Adres"]))}'
+                ),
+                max_width=350,
+            ),
+            tooltip=f'📍 {html.escape(str(searched_pharmacy["Eczane"]))}',
+        ).add_to(m)
+
+    elif not df.empty:
         m.fit_bounds(
             [
                 [
@@ -1477,6 +1517,53 @@ try:
         "Toplam tekil eczane",
         len(pharmacies),
     )
+
+    # --------------------------------------------------------
+    # ECZANE ARAMA
+    # --------------------------------------------------------
+    st.sidebar.markdown("### 🔎 Eczane Ara")
+
+    pharmacy_options = [""] + sorted(
+        pharmacies["Eczane"].astype(str).tolist(),
+        key=lambda x: normalize_name(x),
+    )
+
+    searched_name = st.sidebar.selectbox(
+        "Eczane adı",
+        options=pharmacy_options,
+        index=0,
+        placeholder="Örn: GÜNGÖR",
+        key="pharmacy_search",
+    )
+
+    searched_pharmacy = None
+
+    if searched_name:
+        search_rows = pharmacies.loc[
+            pharmacies["Eczane"].eq(searched_name)
+        ]
+
+        if not search_rows.empty:
+            searched_pharmacy = search_rows.iloc[0]
+
+            st.sidebar.success(
+                f'{searched_pharmacy["Eczane"]} · {searched_pharmacy["Grup"]}'
+            )
+
+            # Aranan eczanenin grubu seçili değilse otomatik olarak görünür yap.
+            searched_group = str(searched_pharmacy["Grup"])
+
+            if searched_group not in st.session_state.get(
+                "selected_groups",
+                []
+            ):
+                current = st.session_state.get(
+                    "selected_groups",
+                    []
+                ).copy()
+
+                current.append(searched_group)
+                st.session_state.selected_groups = current
 
     selectable_groups = [
         "A1", "A2", "A3",
@@ -1585,7 +1672,8 @@ try:
         st.stop()
 
     m = build_map(
-        visible_pharmacies
+        visible_pharmacies,
+        searched_pharmacy=searched_pharmacy,
     )
 
     components.html(
