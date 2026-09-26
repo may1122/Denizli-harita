@@ -61,11 +61,11 @@ GROUPS: dict[str, list[str]] = {
     "F3": ["PELİTLİBAĞ", "MERKEZ", "ÇETİNKAYA", "DOĞAL", "ANIL", "BİLGEHAN", "CEYHAN", "ANAFARTALAR"],
 
     "G1": ["FATIMA ŞENTÜRK", "GÜRKAN", "DİŞÇİOĞLU", "DİNÇ", "NEFES", "BAHAR", "MİMAR SİNAN", "ASLAN"],
-    "G2": ["CANSU ERKİLET", "NAZAN", "TOLGAY", "EVREN", "EMEK", "TUGAY", "PARK BOTANİK", "EZGİ"],
+    "G2": ["CANSU ERKİLET", "NAZAN", "TOLGAY", "EMEK", "TUGAY", "PARK BOTANİK", "EZGİ"],
     "G3": ["ÖZCEL", "KÖSELER", "AYLİN", "MERVE", "ÖZNUR", "SAĞLIK Pamukkale","SEVİM", "AKKAYA"],
 
     "H1": ["ZEYNEP SULTAN", "GÖKKUŞAĞI", "ELİF PAMUKÇU", "FORUM ÇAMLIK", "CEYLAN", "ŞİRİN", "ELİF'İN"],
-    "H2": ["ELVAN", "KABAYUKA", "ALPLER", "BİLGE", "YEŞİLYUVA", "AYDIN", "ERSAN", "ÇETİN"],
+    "H2": ["ELVAN", "KABAYUKA", "ALPLER", "BİLGE", "YEŞİLYUVA", "AYDIN", "ERSAN", "EVREN", "ÇETİN"],
     "H3": ["KINIKLI", "MUTLU GÜNLER", "ÇAMLICA", "OKYANUS", "SARAÇOĞLU", "ÇAMLIK", "GÖRKEM"],
 
     "K1": ["MERVE YAMUÇ", "GÖKÇE", "ALSANCAK", "DEMİRCİOĞLU GÜL", "CANDAN", "KIZILTAŞ", "SAYGIN", "DEMİROĞLU"],
