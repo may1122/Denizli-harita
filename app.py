@@ -52,9 +52,9 @@ GROUPS: dict[str, list[str]] = {
     "D2": ["DEMİRAY", "GÜNGÖR", "EFE", "ERDEM", "CANAN", "BURCU", "GÖKSU", "GÜLEÇ"],
     "D3": ["TURKUAZ", "YEŞİLYURT", "ERCAN", "BÜYÜK", "DUYGU", "SAĞLIK", "DENİZLİ"],
 
-    "E1": ["GÜLAY", "MORALIOĞLU", "LOKMAN", "ŞULE", "BERTAN", "DAĞDEVİREN", "ŞİFA"],
-    "E2": ["OCAK", "TEMMUZ", "SEVİL", "ÇOMUT", "ESİN", "SERGEN"],
-    "E3": ["ARCA", "AYGÖREN", "KIVILCIM", "AYKUT", "İNCEOĞLU", "GÖKHAN", "ELİF", "NEŞE", "EZO"],
+    "E1": ["ARCA", "GÜLAY", "MORALIOĞLU", "LOKMAN", "ŞULE", "BERTAN", "DAĞDEVİREN", "ŞİFA"],
+    "E2": ["OCAK", "TEMMUZ", "SEVİL", "ÇOMUT", "ESİN", "SERGEN", "EZO"],
+    "E3": ["AYGÖREN", "KIVILCIM", "AYKUT", "İNCEOĞLU", "GÖKHAN", "ELİF", "NEŞE"],
 
     "F1": ["KOÇAK", "BÜŞRA BOYACI", "SEMT", "GAMZE", "MAVİ", "DEMİRTAŞ", "BAŞDİL", "MİRA"],
     "F2": ["ZEYNEP", "ÇALLIOĞLU", "DELİKTAŞ", "BAKLAN", "AYŞEN", "DOKUZKAVAKLAR", "DİLEK", "NEVA",],
