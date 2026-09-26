@@ -52,17 +52,17 @@ GROUPS: dict[str, list[str]] = {
     "D2": ["DEMİRAY", "GÜNGÖR", "EFE", "ERDEM", "CANAN", "BURCU"],
     "D3": ["TURKUAZ", "YEŞİLYURT", "ERCAN", "BÜYÜK", "DUYGU", "SAĞLIK", "DENİZLİ"],
 
-    "E1": ["MORARLIOĞLU", "ARCA", "GÜLAY", "MORALIOĞLU", "LOKMAN", "ŞULE", "DAĞDEVİREN", "ŞİFA", "EGE"],
+    "E1": ["MORARLIOĞLU", "ARCA", "GÜLAY", "MORALIOĞLU", "LOKMAN", "ŞULE", "BERTAN", "DAĞDEVİREN", "ŞİFA", "EGE"],
     "E2": ["OCAK", "TEMMUZ", "SEVİL", "ÇOMUT", "ESİN", "SERGEN", "BAYRAMYERİ"],
     "E3": ["AYGÖREN", "KIVILCIM", "AYKUT", "İNCEOĞLU", "GÖKHAN", "EZO"],
 
     "F1": ["KOÇAK", "BÜŞRA BOYACI", "SEMT", "GAMZE", "MAVİ", "DEMİRTAŞ", "BAŞDİL", "MİRA"],
     "F2": ["ZEYNEP", "ÇALLIOĞLU", "DELİKTAŞ", "BAKLAN", "AYŞEN", "DOKUZKAVAKLAR", "DİLEK", "NEVA", "ANAFARTALAR"],
-    "F3": ["PELİTLİBAĞ", "MERKEZ", "ÇETİNKAYA", "DOĞAL", "ANIL", "ELİF", "NEŞE", "CEYHAN"],
+    "F3": ["PELİTLİBAĞ", "MERKEZ", "ÇETİNKAYA", "DOĞAL", "ANIL", "ELİF", "NEŞE", "BİLGEHAN", "CEYHAN"],
 
-    "G1": ["FATIMA ŞENTÜRK", "GÜRKAN", "DİŞÇİOĞLU", "DİNÇ", "NEFES", "BAHAR", "ASLAN"],
+    "G1": ["FATIMA ŞENTÜRK", "GÜRKAN", "DİŞÇİOĞLU", "DİNÇ", "NEFES", "BAHAR", "MİMAR SİNAN", "ASLAN"],
     "G2": ["CANSU ERKİLET", "NAZAN", "TOLGAY", "AKKAYA", "SEVİM", "EVREN", "EMEK", "TUGAY", "PARK BOTANİK"],
-    "G3": ["ÖZCEL", "KÖSELER", "AYLİN", "MERVE", "ÖZNUR", "EZGİ"],
+    "G3": ["ÖZCEL", "KÖSELER", "AYLİN", "MERVE", "ÖZNUR", "SAĞLIK PAMUKKALE", "EZGİ"],
 
     "H1": ["ZEYNEP SULTAN", "GÖKKUŞAĞI", "ELİF PAMUKÇU", "FORUM ÇAMLIK", "CEYLAN", "ŞİRİN", "ELİF İN"],
     "H2": ["ELVAN", "KABAYUKA", "ALPLER", "BİLGE", "YEŞİLYUVA", "AYDIN", "ERSAN", "ÇETİN"],
