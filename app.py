@@ -36,7 +36,7 @@ ECZANE_FILE_NAME = "denizli_eczaneler.xlsx"
 # ============================================================
 
 GROUPS: dict[str, list[str]] = {
-    "A1": ["ALBAYRAK", "CEREN FİLİZER", "CAN SUYU", "IRMAK", "OZAN","MENEKŞE","KARNAK", "ÖZGÜ"],
+    "A1": ["ALBAYRAK", "CEREN FİLİZER", "CANSUYU", "IRMAK", "OZAN","MENEKŞE","KARNAK", "ÖZGÜ"],
     "A2": ["CEYDA POLAT", "AYNUR GÜLER", "YENİLMEZ", "KUNDAKÇI", "ERMAN", "DERYAM", "BÜKE", "KAYDIHAN", "GENCER"],
     "A3": ["CADDE SAĞLIK", "İZMİRLİ", "GÜNEŞ", "TÜFEKÇİOĞLU", "ÖZGÜN KIYAT", "ALTINOVA", "BAŞÇAVUŞ", "SAHRA"],
 
@@ -46,13 +46,13 @@ GROUPS: dict[str, list[str]] = {
 
     "C1": ["ÜMİT", "ERTUĞRUL", "CEMRE", "KİRAZ", "UMAY", "SENA KELLECİ", "NUR BAŞÇAVUŞ", "AKTÜRK"],
     "C2": ["DENİZİM", "UZMAN", "29_EKİM", "TURUNÇ", "GÜLERYÜZ", "AYFER CEYLAN", "ASLI", "HASİBE KARTOĞLAN"],
-    "C3": ["MERKEZEFENDİ", "SEDA BAŞGİL", "İLKE", "GÖZDE GÜNDÜZ", "SEDA BAŞDİL", "MEHMET KAYA", "IŞIMLIK", "SİNEM", "ÖZGÜR"],
+    "C3": ["MERKEZEFENDİ", "İLKE", "GÖZDE GÜNDÜZ", "SEDA BAŞDİL", "MEHMET KAYA", "IŞIMLIK", "SİNEM", "ÖZGÜR"],
 
     "D1": ["BAYRAMOĞLU", "LİMONCU", "ÖZDERMAN", "ÇAKMAKLIOĞLU", "IŞIL", "ADALI", "GÖKSU", "GÜLEÇ"],
     "D2": ["DEMİRAY", "GÜNGÖR", "EFE", "ERDEM", "CANAN", "BURCU"],
     "D3": ["TURKUAZ", "YEŞİLYURT", "ERCAN", "BÜYÜK", "DUYGU", "SAĞLIK", "DENİZLİ"],
 
-    "E1": ["MORARLIOĞLU", "ARCA", "GÜLAY", "MORALIOĞLU", "LOKMAN", "ŞULE", "BERTAN", "DAĞDEVİREN", "ŞİFA", "EGE"],
+    "E1": ["ARCA", "GÜLAY", "MORALIOĞLU", "LOKMAN", "ŞULE", "BERTAN", "DAĞDEVİREN", "ŞİFA", "EGE"],
     "E2": ["OCAK", "TEMMUZ", "SEVİL", "ÇOMUT", "ESİN", "SERGEN", "BAYRAMYERİ"],
     "E3": ["AYGÖREN", "KIVILCIM", "AYKUT", "İNCEOĞLU", "GÖKHAN", "EZO"],
 
@@ -62,9 +62,9 @@ GROUPS: dict[str, list[str]] = {
 
     "G1": ["FATIMA ŞENTÜRK", "GÜRKAN", "DİŞÇİOĞLU", "DİNÇ", "NEFES", "BAHAR", "MİMAR SİNAN", "ASLAN"],
     "G2": ["CANSU ERKİLET", "NAZAN", "TOLGAY", "AKKAYA", "SEVİM", "EVREN", "EMEK", "TUGAY", "PARK BOTANİK"],
-    "G3": ["ÖZCEL", "KÖSELER", "AYLİN", "MERVE", "ÖZNUR", "SAĞLIK PAMUKKALE", "EZGİ"],
+    "G3": ["ÖZCEL", "KÖSELER", "AYLİN", "MERVE", "ÖZNUR", "SAĞLIK Pamukkale", "EZGİ"],
 
-    "H1": ["ZEYNEP SULTAN", "GÖKKUŞAĞI", "ELİF PAMUKÇU", "FORUM ÇAMLIK", "CEYLAN", "ŞİRİN", "ELİF İN"],
+    "H1": ["ZEYNEP SULTAN", "GÖKKUŞAĞI", "ELİF PAMUKÇU", "FORUM ÇAMLIK", "CEYLAN", "ŞİRİN", "ELİF'İN"],
     "H2": ["ELVAN", "KABAYUKA", "ALPLER", "BİLGE", "YEŞİLYUVA", "AYDIN", "ERSAN", "ÇETİN"],
     "H3": ["KINIKLI", "MUTLU GÜNLER", "ÇAMLICA", "OKYANUS", "SARAÇOĞLU", "ÇAMLIK", "GÖRKEM"],
 
