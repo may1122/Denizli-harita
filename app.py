@@ -36,15 +36,15 @@ ECZANE_FILE_NAME = "denizli_eczaneler.xlsx"
 # ============================================================
 
 GROUPS: dict[str, list[str]] = {
-    "A1": ["ALBAYRAK", "CEREN FİLİZER", "CAN SUYU", "IRMAK", "OZAN", "ÖZGÜ"],
-    "A2": ["CEYDA POLAT", "AYNUR GÜLER", "YENİLMEZ", "KUNDAKÇI", "ERMAN", "DERYAM", "KAYDIHAN", "GENCER"],
+    "A1": ["ALBAYRAK", "CEREN FİLİZER", "CAN SUYU", "IRMAK", "OZAN","MENEKŞE","KARNAK", "ÖZGÜ"],
+    "A2": ["CEYDA POLAT", "AYNUR GÜLER", "YENİLMEZ", "KUNDAKÇI", "ERMAN", "DERYAM", "BÜKE", "KAYDIHAN", "GENCER"],
     "A3": ["CADDE SAĞLIK", "İZMİRLİ", "GÜNEŞ", "TÜFEKÇİOĞLU", "ÖZGÜN KIYAT", "ALTINOVA", "BAŞÇAVUŞ", "SAHRA"],
 
-    "B1": ["ÇİFTÇİ", "ÖZSOY", "DEMİR", "BERGAMA", "SEMİH", "UĞUR", "FLORYA", "ÇAKMAK"],
+    "B1": ["ÇİFTÇİ", "ÖZSOY", "DEMİR", "BERGAMA", "SEMİH", "UĞUR", "SEÇİL", "FLORYA", "ÇAKMAK"],
     "B2": ["KAPLAN", "NÜKHET", "HACETTEPE", "ADALET", "ÖZGEN", "EMİR", "ADA", "HAZAR"],
     "B3": ["PAMUKKALE AKTÜRK", "EKİZ", "NİLGÜN", "PAPATYA", "CANSU", "GÜLRİZ", "TURAN", "KÖKNAR"],
 
-    "C1": ["ÜMİT", "ERTUĞRUL", "CEMRE", "KİRAZ", "UMAY", "SENA KELLECİ", "AKTÜRK"],
+    "C1": ["ÜMİT", "ERTUĞRUL", "CEMRE", "KİRAZ", "UMAY", "SENA KELLECİ", "NUR BAŞÇAVUŞ", "AKTÜRK"],
     "C2": ["DENİZİM", "UZMAN", "29_EKİM", "TURUNÇ", "GÜLERYÜZ", "AYFER CEYLAN", "ASLI", "HASİBE KARTOĞLAN"],
     "C3": ["MERKEZEFENDİ", "SEDA BAŞGİL", "İLKE", "GÖZDE GÜNDÜZ", "SEDA BAŞDİL", "MEHMET KAYA", "IŞIMLIK", "SİNEM", "ÖZGÜR"],
 
