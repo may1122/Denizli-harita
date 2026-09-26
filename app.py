@@ -48,12 +48,12 @@ GROUPS: dict[str, list[str]] = {
     "C2": ["DENİZİM", "UZMAN", "29_EKİM", "TURUNÇ", "GÜLERYÜZ", "AYFER CEYLAN", "ASLI", "HASİBE KARTOĞLAN"],
     "C3": ["MERKEZEFENDİ", "İLKE", "GÖZDE GÜNDÜZ", "SEDA BAŞDİL", "MEHMET KAYA", "IŞIMLIK", "SİNEM", "ÖZGÜR"],
 
-    "D1": ["BAYRAMOĞLU", "LİMONCU", "ÖZDERMAN", "ÇAKMAKLIOĞLU", "IŞIL", "ADALI", "GÖKSU"],
-    "D2": ["DEMİRAY", "GÜNGÖR", "EFE", "ERDEM", "CANAN", "BURCU", "GÜLEÇ"],
+    "D1": ["BAYRAMOĞLU", "LİMONCU", "ÖZDERMAN", "ÇAKMAKLIOĞLU", "IŞIL", "ADALI", "EGE", "BAYRAMYERİ"],
+    "D2": ["DEMİRAY", "GÜNGÖR", "EFE", "ERDEM", "CANAN", "BURCU", "GÖKSU", "GÜLEÇ"],
     "D3": ["TURKUAZ", "YEŞİLYURT", "ERCAN", "BÜYÜK", "DUYGU", "SAĞLIK", "DENİZLİ"],
 
-    "E1": ["GÜLAY", "MORALIOĞLU", "LOKMAN", "ŞULE", "BERTAN", "DAĞDEVİREN", "ŞİFA", "EGE"],
-    "E2": ["OCAK", "TEMMUZ", "SEVİL", "ÇOMUT", "ESİN", "SERGEN", "BAYRAMYERİ"],
+    "E1": ["GÜLAY", "MORALIOĞLU", "LOKMAN", "ŞULE", "BERTAN", "DAĞDEVİREN", "ŞİFA"],
+    "E2": ["OCAK", "TEMMUZ", "SEVİL", "ÇOMUT", "ESİN", "SERGEN"],
     "E3": ["ARCA", "AYGÖREN", "KIVILCIM", "AYKUT", "İNCEOĞLU", "GÖKHAN", "EZO"],
 
     "F1": ["KOÇAK", "BÜŞRA BOYACI", "SEMT", "GAMZE", "MAVİ", "DEMİRTAŞ", "BAŞDİL", "MİRA"],
