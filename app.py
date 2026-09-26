@@ -69,8 +69,8 @@ GROUPS: dict[str, list[str]] = {
     "H3": ["KINIKLI", "MUTLU GÜNLER", "ÇAMLICA", "OKYANUS", "SARAÇOĞLU", "ÇAMLIK", "GÖRKEM"],
 
     "K1": ["MERVE YAMUÇ", "GÖKÇE", "ALSANCAK", "DEMİRCİOĞLU GÜL", "CANDAN", "KIZILTAŞ", "SAYGIN", "DEMİROĞLU"],
-    "K2": ["SU", "TUBA", "DEVECİ", "DERMAN", "EZGİ KIRDI", "ZEYTİNKÖY SEMA", "GÜRSOY", "PAMUKKALE", "İNANÖZ"],
-    "K3": ["ÜNİVERSİTE", "SOYLU", "CANDENİZ", "ASMALI", "İSTİKLAL", "HÜRRİYET", "AKDENİZ"],
+    "K2": ["SU", "TUBA", "DEVECİ", "DERMAN", "EZGİ KIRDI", "ZEYTİNKÖY SEMA", "GÜRSOY", "İNANÖZ"],
+    "K3": ["ÜNİVERSİTE", "SOYLU", "CANDENİZ", "ASMALI", "İSTİKLAL", "HÜRRİYET", "PAMUKKALE", "AKDENİZ"],
 }
 
 GROUP_COLORS = {
